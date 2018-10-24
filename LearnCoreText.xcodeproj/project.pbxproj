@@ -15,6 +15,8 @@
 		FDD7CCC021801AF900B0DEA2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCBF21801AF900B0DEA2 /* main.m */; };
 		FDD7CCCA21801AF900B0DEA2 /* LearnCoreTextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCC921801AF900B0DEA2 /* LearnCoreTextTests.m */; };
 		FDD7CCD521801AF900B0DEA2 /* LearnCoreTextUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCD421801AF900B0DEA2 /* LearnCoreTextUITests.m */; };
+		FDD7CCE621801B3500B0DEA2 /* BackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCE321801B3400B0DEA2 /* BackViewController.m */; };
+		FDD7CCE721801B3500B0DEA2 /* ContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCE421801B3400B0DEA2 /* ContentViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,10 @@
 		FDD7CCD021801AF900B0DEA2 /* LearnCoreTextUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearnCoreTextUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD7CCD421801AF900B0DEA2 /* LearnCoreTextUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LearnCoreTextUITests.m; sourceTree = "<group>"; };
 		FDD7CCD621801AF900B0DEA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FDD7CCE221801B3400B0DEA2 /* ContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentViewController.h; sourceTree = "<group>"; };
+		FDD7CCE321801B3400B0DEA2 /* BackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackViewController.m; sourceTree = "<group>"; };
+		FDD7CCE421801B3400B0DEA2 /* ContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentViewController.m; sourceTree = "<group>"; };
+		FDD7CCE521801B3400B0DEA2 /* BackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +111,10 @@
 				FDD7CCB121801AF800B0DEA2 /* AppDelegate.m */,
 				FDD7CCB321801AF800B0DEA2 /* ViewController.h */,
 				FDD7CCB421801AF800B0DEA2 /* ViewController.m */,
+				FDD7CCE521801B3400B0DEA2 /* BackViewController.h */,
+				FDD7CCE321801B3400B0DEA2 /* BackViewController.m */,
+				FDD7CCE221801B3400B0DEA2 /* ContentViewController.h */,
+				FDD7CCE421801B3400B0DEA2 /* ContentViewController.m */,
 				FDD7CCB621801AF800B0DEA2 /* Main.storyboard */,
 				FDD7CCB921801AF900B0DEA2 /* Assets.xcassets */,
 				FDD7CCBB21801AF900B0DEA2 /* LaunchScreen.storyboard */,
@@ -263,8 +273,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDD7CCB521801AF800B0DEA2 /* ViewController.m in Sources */,
+				FDD7CCE721801B3500B0DEA2 /* ContentViewController.m in Sources */,
 				FDD7CCC021801AF900B0DEA2 /* main.m in Sources */,
 				FDD7CCB221801AF800B0DEA2 /* AppDelegate.m in Sources */,
+				FDD7CCE621801B3500B0DEA2 /* BackViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

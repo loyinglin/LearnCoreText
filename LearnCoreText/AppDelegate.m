@@ -1,9 +1,9 @@
 //
 //  AppDelegate.m
-//  LearnCoreText
+//  LearnHTMLtoNSString
 //
-//  Created by loyinglin on 2018/10/24.
-//  Copyright © 2018 loyinglin. All rights reserved.
+//  Created by loyinglin on 2018/10/23.
+//  Copyright © 2018年 loyinglin. All rights reserved.
 //
 
 #import "AppDelegate.h"
