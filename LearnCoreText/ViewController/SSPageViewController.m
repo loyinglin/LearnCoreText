@@ -27,8 +27,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.pageView = [[SSPageView alloc] initWithFrame:self.view.bounds];
+    self.view.backgroundColor = [UIColor greenColor];
+    self.pageView = [[SSPageView alloc] initWithFrame:CGRectMake(PageHorizontalMargin, PageTop, CGRectGetWidth(self.view.bounds) - PageHorizontalMargin * 2, CGRectGetHeight(self.view.bounds) - PageTop - PageBottom)];
     self.pageView.pageData = self.pageData;
     [self.view addSubview:self.pageView];
 }

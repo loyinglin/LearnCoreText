@@ -16,9 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) SSChapterData *chapterData; // real data
 
-@property (strong, nonatomic) NSArray<NSValue *> *pagesArr; // 分页后的页面数组
+@property (nonatomic, strong) NSArray<NSValue *> *pagesArr; // 分页后的页面数组
 
-@property (strong, nonatomic) NSAttributedString *attrStr; // 章节富文本
+@property (nonatomic, strong) NSAttributedString *attrStr; // 章节富文本
 
 @property (nonatomic, assign) CGSize pageSize;
 

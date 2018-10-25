@@ -15,14 +15,15 @@
 #import "SSConfigData.h"
 #import "SSLayoutManager.h"
 #import "SSLayoutChapterData.h"
+#import "SSPageControllManager.h"
 #import <CoreText/CoreText.h>
 
 @interface ViewController () <UIPageViewControllerDelegate, UIPageViewControllerDataSource>
 
 @property(nonatomic, strong) UIPageViewController *pageViewController;
-@property (nonatomic, strong) SSReadingContextData *readingContextData;
+
+@property (nonatomic, strong) SSPageControllManager *pageControllManager;
 @property (nonatomic, strong) SSConfigData *configData;
-@property (nonatomic, strong) SSLayoutChapterData *curLayoutChapterData;
 @end
 
 @implementation ViewController
@@ -30,23 +31,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
+    [self loadPageControllManager];
+    [self loadPageViewController];
+    [self customInitFirstPage];
+}
+
+- (void)loadPageViewController {
     self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
                                                               navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
                                                                             options:@{UIPageViewControllerOptionSpineLocationKey:@(UIPageViewControllerSpineLocationMin)}];
     self.pageViewController.delegate = self;
     self.pageViewController.dataSource = self;
     self.pageViewController.doubleSided = YES;
+    self.pageViewController.view.backgroundColor = [UIColor greenColor];
     [self.view addSubview:self.pageViewController.view];
     [self addChildViewController:self.pageViewController];
-    
-    self.readingContextData = [self loadReadingContextData];
-    SSChapterData *curChapterData = [self loadChapterData:self.readingContextData];
+}
+
+
+- (void)loadPageControllManager {
+    SSReadingContextData *readingContextData = [self loadReadingContextData];
     self.configData = [self loadConfigData];
-    
-    self.curLayoutChapterData = [self getLayoutChapterData:curChapterData configData:self.configData];
-    SSLayoutPageData *pageData = [self getLayoutPageData:self.curLayoutChapterData readingContextData:self.readingContextData];
-    
+    self.pageControllManager = [[SSPageControllManager alloc] initWithReadingContextData:readingContextData configData:self.configData];
+}
+
+
+- (void)customInitFirstPage {
+    SSLayoutPageData *pageData = [self.pageControllManager getCurrentPageData];
     SSPageViewController *pageVC = [[SSPageViewController alloc] initWithPageData:pageData];
     
     [self.pageViewController setViewControllers:@[pageVC]
@@ -57,36 +68,23 @@
                                      }];
 }
 
-- (SSLayoutPageData *)getLayoutPageData:(SSLayoutChapterData *)layoutChapterData readingContextData:(SSReadingContextData *)readingContextData {
-    SSLayoutManager *layoutMgr = [[SSLayoutManager alloc] init];
-    return [layoutMgr getPageDataWithLayoutChapterData:layoutChapterData pageIndex:readingContextData.curPage];
-}
-
-- (SSLayoutChapterData *)getLayoutChapterData:(SSChapterData *)chapterData configData:(SSConfigData *)configData {
-    SSLayoutManager *layoutMgr = [[SSLayoutManager alloc] init];
-    return [layoutMgr getLayoutChapterDataWithChapterData:chapterData configData:configData pageSize:self.view.bounds.size];
-}
-
 - (SSReadingContextData *)loadReadingContextData {
     SSReadingContextData *ret = [[SSReadingContextData alloc] init];
-    ret.curPage = 1;
+    ret.curPage = 0;
+    ret.chapterId = @"1";
+    ret.bookId = @"abc";
+    ret.pageSize = CGSizeMake(CGRectGetWidth(self.view.bounds) - 2 * PageHorizontalMargin, CGRectGetHeight(self.view.bounds) - PageTop - PageBottom);
     return ret;
 }
 
 - (SSConfigData *)loadConfigData {
     SSConfigData *configData = [[SSConfigData alloc] init];
     configData.font = [UIFont systemFontOfSize:16];
-    configData.textColor = [UIColor blackColor];
+    configData.textColor = [UIColor grayColor];
     configData.character = 1;
     configData.paragraph = 10;
     configData.line = 5;
     return configData;
-}
-
-- (SSChapterData *)loadChapterData:(SSReadingContextData *)readingContextData {
-    SSDataManager *dataMgr = [[SSDataManager alloc] init];
-    SSChapterData *chapterData = [dataMgr getRemoteChatperDataWithId:readingContextData];
-    return chapterData;
 }
 
 - (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
@@ -98,8 +96,14 @@
         ret = backVC;
     }
     else {
-        ContentViewController *contentVC = [[ContentViewController alloc] init];
-        ret = contentVC;
+        SSLayoutPageData *pageData = [self.pageControllManager getNearPageDataWithIsNext:NO];
+        if (pageData) {
+            SSPageViewController *pageVC = [[SSPageViewController alloc] initWithPageData:pageData];
+            ret = pageVC;
+        }
+        else {
+            NSLog(@"viewControllerBeforeViewController null");
+        }
     }
     return ret;
 }
@@ -113,10 +117,24 @@
         ret = backVC;
     }
     else {
-        ContentViewController *contentVC = [[ContentViewController alloc] init];
-        ret = contentVC;
+        SSLayoutPageData *pageData = [self.pageControllManager getNearPageDataWithIsNext:YES];
+        if (pageData) {
+            SSPageViewController *pageVC = [[SSPageViewController alloc] initWithPageData:pageData];
+            ret = pageVC;
+        }
+        else {
+            NSLog(@"viewControllerAfterViewController null");
+        }
     }
     return ret;
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
+    NSLog(@"didFinishAnimating");
+    if (completed && [self.pageViewController.viewControllers[0] isKindOfClass:[SSPageViewController class]]) {
+        SSPageViewController *pageViewController = (SSPageViewController *)self.pageViewController.viewControllers[0];
+        [self.pageControllManager onNewPageDidAppear:pageViewController.pageData];
+    }
 }
 
 -(IBAction)onNext:(id)sender {

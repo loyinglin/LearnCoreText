@@ -12,6 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define PageTop (66)
+#define PageBottom (50)
+#define PageHorizontalMargin (10)
 
 /**
  分页显示的控制器

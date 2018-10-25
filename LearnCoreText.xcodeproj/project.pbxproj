@@ -27,6 +27,7 @@
 		FDD7CD03218080C100B0DEA2 /* SSDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD02218080C100B0DEA2 /* SSDataManager.m */; };
 		FDD7CD062180817700B0DEA2 /* SSReadingContextData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD052180817700B0DEA2 /* SSReadingContextData.m */; };
 		FDD7CD0921809F1A00B0DEA2 /* SSLayoutChapterData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD0821809F1A00B0DEA2 /* SSLayoutChapterData.m */; };
+		FDD7CD0C2181641200B0DEA2 /* SSPageControllManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD0B2181641200B0DEA2 /* SSPageControllManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,8 @@
 		FDD7CD052180817700B0DEA2 /* SSReadingContextData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSReadingContextData.m; sourceTree = "<group>"; };
 		FDD7CD0721809F1A00B0DEA2 /* SSLayoutChapterData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSLayoutChapterData.h; sourceTree = "<group>"; };
 		FDD7CD0821809F1A00B0DEA2 /* SSLayoutChapterData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSLayoutChapterData.m; sourceTree = "<group>"; };
+		FDD7CD0A2181641200B0DEA2 /* SSPageControllManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSPageControllManager.h; sourceTree = "<group>"; };
+		FDD7CD0B2181641200B0DEA2 /* SSPageControllManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSPageControllManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +205,8 @@
 				FDD7CCF72180491700B0DEA2 /* SSTransformManager.m */,
 				FDD7CD01218080C100B0DEA2 /* SSDataManager.h */,
 				FDD7CD02218080C100B0DEA2 /* SSDataManager.m */,
+				FDD7CD0A2181641200B0DEA2 /* SSPageControllManager.h */,
+				FDD7CD0B2181641200B0DEA2 /* SSPageControllManager.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -354,6 +359,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDD7CD0C2181641200B0DEA2 /* SSPageControllManager.m in Sources */,
 				FDD7CCF5218048BF00B0DEA2 /* SSConfigData.m in Sources */,
 				FDD7CD0921809F1A00B0DEA2 /* SSLayoutChapterData.m in Sources */,
 				FDD7CCB521801AF800B0DEA2 /* ViewController.m in Sources */,
@@ -540,6 +546,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/*";
 				INFOPLIST_FILE = LearnCoreText/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -556,6 +563,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/*";
 				INFOPLIST_FILE = LearnCoreText/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SSLayoutChapterData *)getLayoutChapterDataWithChapterData:(SSChapterData *)chapterData configData:(SSConfigData *)configData pageSize:(CGSize)pageSize;
 
-- (SSLayoutPageData *)getPageDataWithLayoutChapterData:(SSLayoutChapterData *)layoutChapterData pageIndex:(NSUInteger)pageIndex;
+- (SSLayoutPageData *)getLayoutPageDataWithLayoutChapterData:(SSLayoutChapterData *)layoutChapterData pageIndex:(NSUInteger)pageIndex;
 
 
 

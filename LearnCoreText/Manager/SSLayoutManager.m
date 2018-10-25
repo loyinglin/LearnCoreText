@@ -59,10 +59,15 @@
     }
     dict[NSKernAttributeName] = @(configData.character);
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.firstLineHeadIndent = [configData.font pointSize] * 2;
+    
+//    paragraphStyle.firstLineHeadIndent = [configData.font pointSize] * 2; // 跨页的逻辑处理太过复杂， 用换行的空格来替代
+//    paragraphStyle.headIndent = 5;
+    
     paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
     paragraphStyle.lineSpacing = configData.line;
+    
     paragraphStyle.paragraphSpacing = configData.paragraph;
+    paragraphStyle.alignment = NSTextAlignmentJustified;
     dict[NSParagraphStyleAttributeName] = paragraphStyle;
 
     NSAttributedString *ret = [[NSAttributedString alloc] initWithString:contentStr
@@ -70,8 +75,7 @@
     return ret;
 }
 
-- (SSLayoutPageData *)getPageDataWithLayoutChapterData:(SSLayoutChapterData *)layoutChapterData pageIndex:(NSUInteger)pageIndex {
-    --pageIndex;
+- (SSLayoutPageData *)getLayoutPageDataWithLayoutChapterData:(SSLayoutChapterData *)layoutChapterData pageIndex:(NSUInteger)pageIndex {
     NSAssert(pageIndex < layoutChapterData.pagesArr.count, @"out range pageIndex");
     NSRange pageRange = [(NSValue *)[layoutChapterData.pagesArr objectAtIndex:pageIndex] rangeValue];
     NSAttributedString * subString = [layoutChapterData.attrStr attributedSubstringFromRange:pageRange]; // 截取字符串
@@ -81,6 +85,8 @@
     CFRelease(frameSetter);
     
     SSLayoutPageData *pageData = [[SSLayoutPageData alloc] initWithCTFrame:frameRef range:pageRange attributeStr:subString];
+    pageData.chapterId = layoutChapterData.chapterData.chapterId;
+    pageData.pageIndex = pageIndex;
     return pageData;
 }
 

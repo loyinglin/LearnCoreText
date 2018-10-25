@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SSReadingContextData : NSObject
 
-@property (nonatomic, strong) NSString *chapterId;
 @property (nonatomic, strong) NSString *bookId;
+@property (nonatomic, strong) NSString *chapterId;
 @property (nonatomic, assign) NSUInteger curPage;
+@property (nonatomic, assign) CGSize pageSize;
 
 @end
 

@@ -13,6 +13,9 @@
 
 @interface SSLayoutPageData : NSObject
 
+@property (nonatomic, strong) NSString *chapterId;
+@property (nonatomic, assign) NSUInteger pageIndex;
+
 @property (nonatomic, assign) CTFrameRef frameRef; // 当前页面的排版结果
 NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSRange range; // current string in chapter

@@ -12,15 +12,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SSChapterData : NSObject
 
-@property (strong, nonatomic) NSString *chapterId; // 章节id（对应章节目录）
+@property (nonatomic, strong) NSString *chapterId; // 章节id（对应章节目录）
 
-@property (strong, nonatomic) NSString *chapterName; // 章节名
+@property (nonatomic, strong) NSString *chapterName; // 章节名
 
-@property (strong, nonatomic) NSString *strContent; // 章节内容
+@property (nonatomic, strong) NSDictionary *paragraphDict; // 段落数据，nsrange
 
-@property (strong, nonatomic) NSString *lastChapterId; // 上一章节的id
+@property (nonatomic, strong) NSString *strContent; // 章节内容
 
-@property (strong, nonatomic) NSString *nextChapterId; // 下一章节的id
+@property (nonatomic, strong) NSString *lastChapterId; // 上一章节的id
+
+@property (nonatomic, strong) NSString *nextChapterId; // 下一章节的id
 
 @end
 

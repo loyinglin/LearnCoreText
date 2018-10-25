@@ -8,13 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "SSChapterData.h"
-#import "SSReadingContextData.h"
+
+typedef void(^SSDataCallback)(SSChapterData *chapterData);
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SSDataManager : NSObject
 
-- (SSChapterData *)getRemoteChatperDataWithId:(SSReadingContextData *)readingContextData;
+- (SSChapterData *)syncGetRemoteChatperDataWithBookId:(NSString *)bookId chapterId:(NSString *)chapterId;
+
+- (void)asyncGetRemoteChatperDataWithBookId:(NSString *)bookId chapterId:(NSString *)chapterId callback:(SSDataCallback)callback;
 
 @end
 
