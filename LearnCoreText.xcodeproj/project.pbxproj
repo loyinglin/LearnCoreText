@@ -17,6 +17,16 @@
 		FDD7CCD521801AF900B0DEA2 /* LearnCoreTextUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCD421801AF900B0DEA2 /* LearnCoreTextUITests.m */; };
 		FDD7CCE621801B3500B0DEA2 /* BackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCE321801B3400B0DEA2 /* BackViewController.m */; };
 		FDD7CCE721801B3500B0DEA2 /* ContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCE421801B3400B0DEA2 /* ContentViewController.m */; };
+		FDD7CCEB2180444900B0DEA2 /* SSChapterData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCEA2180444900B0DEA2 /* SSChapterData.m */; };
+		FDD7CCEE2180456A00B0DEA2 /* SSLayoutPageData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCED2180456A00B0DEA2 /* SSLayoutPageData.m */; };
+		FDD7CCF2218048A000B0DEA2 /* SSLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCF1218048A000B0DEA2 /* SSLayoutManager.m */; };
+		FDD7CCF5218048BF00B0DEA2 /* SSConfigData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCF4218048BF00B0DEA2 /* SSConfigData.m */; };
+		FDD7CCF82180491700B0DEA2 /* SSTransformManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCF72180491700B0DEA2 /* SSTransformManager.m */; };
+		FDD7CCFC21804BE600B0DEA2 /* SSPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCFB21804BE600B0DEA2 /* SSPageView.m */; };
+		FDD7CD0021804EA700B0DEA2 /* SSPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCFF21804EA700B0DEA2 /* SSPageViewController.m */; };
+		FDD7CD03218080C100B0DEA2 /* SSDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD02218080C100B0DEA2 /* SSDataManager.m */; };
+		FDD7CD062180817700B0DEA2 /* SSReadingContextData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD052180817700B0DEA2 /* SSReadingContextData.m */; };
+		FDD7CD0921809F1A00B0DEA2 /* SSLayoutChapterData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD0821809F1A00B0DEA2 /* SSLayoutChapterData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +67,26 @@
 		FDD7CCE321801B3400B0DEA2 /* BackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackViewController.m; sourceTree = "<group>"; };
 		FDD7CCE421801B3400B0DEA2 /* ContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentViewController.m; sourceTree = "<group>"; };
 		FDD7CCE521801B3400B0DEA2 /* BackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackViewController.h; sourceTree = "<group>"; };
+		FDD7CCE92180444900B0DEA2 /* SSChapterData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSChapterData.h; sourceTree = "<group>"; };
+		FDD7CCEA2180444900B0DEA2 /* SSChapterData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSChapterData.m; sourceTree = "<group>"; };
+		FDD7CCEC2180456A00B0DEA2 /* SSLayoutPageData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSLayoutPageData.h; sourceTree = "<group>"; };
+		FDD7CCED2180456A00B0DEA2 /* SSLayoutPageData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSLayoutPageData.m; sourceTree = "<group>"; };
+		FDD7CCF0218048A000B0DEA2 /* SSLayoutManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSLayoutManager.h; sourceTree = "<group>"; };
+		FDD7CCF1218048A000B0DEA2 /* SSLayoutManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSLayoutManager.m; sourceTree = "<group>"; };
+		FDD7CCF3218048BF00B0DEA2 /* SSConfigData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSConfigData.h; sourceTree = "<group>"; };
+		FDD7CCF4218048BF00B0DEA2 /* SSConfigData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSConfigData.m; sourceTree = "<group>"; };
+		FDD7CCF62180491700B0DEA2 /* SSTransformManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSTransformManager.h; sourceTree = "<group>"; };
+		FDD7CCF72180491700B0DEA2 /* SSTransformManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSTransformManager.m; sourceTree = "<group>"; };
+		FDD7CCFA21804BE600B0DEA2 /* SSPageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSPageView.h; sourceTree = "<group>"; };
+		FDD7CCFB21804BE600B0DEA2 /* SSPageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSPageView.m; sourceTree = "<group>"; };
+		FDD7CCFE21804EA700B0DEA2 /* SSPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSPageViewController.h; sourceTree = "<group>"; };
+		FDD7CCFF21804EA700B0DEA2 /* SSPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSPageViewController.m; sourceTree = "<group>"; };
+		FDD7CD01218080C100B0DEA2 /* SSDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSDataManager.h; sourceTree = "<group>"; };
+		FDD7CD02218080C100B0DEA2 /* SSDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSDataManager.m; sourceTree = "<group>"; };
+		FDD7CD042180817700B0DEA2 /* SSReadingContextData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSReadingContextData.h; sourceTree = "<group>"; };
+		FDD7CD052180817700B0DEA2 /* SSReadingContextData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSReadingContextData.m; sourceTree = "<group>"; };
+		FDD7CD0721809F1A00B0DEA2 /* SSLayoutChapterData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSLayoutChapterData.h; sourceTree = "<group>"; };
+		FDD7CD0821809F1A00B0DEA2 /* SSLayoutChapterData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSLayoutChapterData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +137,10 @@
 		FDD7CCAF21801AF800B0DEA2 /* LearnCoreText */ = {
 			isa = PBXGroup;
 			children = (
+				FDD7CCEF2180489600B0DEA2 /* Manager */,
+				FDD7CCE8218043ED00B0DEA2 /* DataModel */,
+				FDD7CCF921804BC500B0DEA2 /* View */,
+				FDD7CCFD21804E8400B0DEA2 /* ViewController */,
 				FDD7CCB021801AF800B0DEA2 /* AppDelegate.h */,
 				FDD7CCB121801AF800B0DEA2 /* AppDelegate.m */,
 				FDD7CCB321801AF800B0DEA2 /* ViewController.h */,
@@ -140,6 +174,54 @@
 				FDD7CCD621801AF900B0DEA2 /* Info.plist */,
 			);
 			path = LearnCoreTextUITests;
+			sourceTree = "<group>";
+		};
+		FDD7CCE8218043ED00B0DEA2 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				FDD7CCE92180444900B0DEA2 /* SSChapterData.h */,
+				FDD7CCEA2180444900B0DEA2 /* SSChapterData.m */,
+				FDD7CCEC2180456A00B0DEA2 /* SSLayoutPageData.h */,
+				FDD7CCED2180456A00B0DEA2 /* SSLayoutPageData.m */,
+				FDD7CD0721809F1A00B0DEA2 /* SSLayoutChapterData.h */,
+				FDD7CD0821809F1A00B0DEA2 /* SSLayoutChapterData.m */,
+				FDD7CCF3218048BF00B0DEA2 /* SSConfigData.h */,
+				FDD7CCF4218048BF00B0DEA2 /* SSConfigData.m */,
+				FDD7CD042180817700B0DEA2 /* SSReadingContextData.h */,
+				FDD7CD052180817700B0DEA2 /* SSReadingContextData.m */,
+			);
+			path = DataModel;
+			sourceTree = "<group>";
+		};
+		FDD7CCEF2180489600B0DEA2 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				FDD7CCF0218048A000B0DEA2 /* SSLayoutManager.h */,
+				FDD7CCF1218048A000B0DEA2 /* SSLayoutManager.m */,
+				FDD7CCF62180491700B0DEA2 /* SSTransformManager.h */,
+				FDD7CCF72180491700B0DEA2 /* SSTransformManager.m */,
+				FDD7CD01218080C100B0DEA2 /* SSDataManager.h */,
+				FDD7CD02218080C100B0DEA2 /* SSDataManager.m */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		FDD7CCF921804BC500B0DEA2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				FDD7CCFA21804BE600B0DEA2 /* SSPageView.h */,
+				FDD7CCFB21804BE600B0DEA2 /* SSPageView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		FDD7CCFD21804E8400B0DEA2 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FDD7CCFE21804EA700B0DEA2 /* SSPageViewController.h */,
+				FDD7CCFF21804EA700B0DEA2 /* SSPageViewController.m */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,11 +354,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDD7CCF5218048BF00B0DEA2 /* SSConfigData.m in Sources */,
+				FDD7CD0921809F1A00B0DEA2 /* SSLayoutChapterData.m in Sources */,
 				FDD7CCB521801AF800B0DEA2 /* ViewController.m in Sources */,
+				FDD7CD062180817700B0DEA2 /* SSReadingContextData.m in Sources */,
 				FDD7CCE721801B3500B0DEA2 /* ContentViewController.m in Sources */,
+				FDD7CD0021804EA700B0DEA2 /* SSPageViewController.m in Sources */,
+				FDD7CD03218080C100B0DEA2 /* SSDataManager.m in Sources */,
 				FDD7CCC021801AF900B0DEA2 /* main.m in Sources */,
+				FDD7CCF2218048A000B0DEA2 /* SSLayoutManager.m in Sources */,
+				FDD7CCFC21804BE600B0DEA2 /* SSPageView.m in Sources */,
+				FDD7CCEE2180456A00B0DEA2 /* SSLayoutPageData.m in Sources */,
 				FDD7CCB221801AF800B0DEA2 /* AppDelegate.m in Sources */,
 				FDD7CCE621801B3500B0DEA2 /* BackViewController.m in Sources */,
+				FDD7CCF82180491700B0DEA2 /* SSTransformManager.m in Sources */,
+				FDD7CCEB2180444900B0DEA2 /* SSChapterData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
