@@ -38,7 +38,6 @@
         self.chapterDataDict = [[NSMutableDictionary alloc] init];
         
         [self syncInitFirstPage];
-        
     }
     return self;
 }

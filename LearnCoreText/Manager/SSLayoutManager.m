@@ -17,7 +17,9 @@
      2、传入富文本和页面大小，传出分页范围数组；
      3、传入分页内容、页数、富文本，传出当页数据；
      */
-    NSAttributedString *attrStr = [self getAttributeStrWithStr:chapterData.strContent configData:configData];
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
+    [attrStr appendAttributedString:[self getTitleAttributeStrWithStr:[NSString stringWithFormat:@"第%@章 测试的标题\n", chapterData.chapterId] configData:configData]];
+    [attrStr appendAttributedString:[self getAttributeStrWithStr:chapterData.strContent configData:configData]];
     NSArray *pagesArr = [self getPagesArrtWithAttributeStr:attrStr pageSize:pageSize];
     SSLayoutChapterData *layoutChapterData = [[SSLayoutChapterData alloc] initWithChapterData:chapterData pagesArray:pagesArr attrStr:attrStr pageSize:pageSize];
     return layoutChapterData;
@@ -47,6 +49,27 @@
         CFRelease(frameSetter);
     };
     return resultRange;
+}
+
+- (NSAttributedString *)getTitleAttributeStrWithStr:(NSString *)contentStr configData:(SSConfigData *)configData {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    dict[NSFontAttributeName] = configData.titleFont;
+    dict[NSForegroundColorAttributeName] = configData.textColor;
+    dict[NSKernAttributeName] = @(configData.character);
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    
+    //    paragraphStyle.firstLineHeadIndent = [configData.font pointSize] * 2; // 跨页的逻辑处理太过复杂， 用换行的空格来替代
+    //    paragraphStyle.headIndent = 5;
+    
+    paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+    paragraphStyle.lineSpacing = configData.line;
+    paragraphStyle.paragraphSpacing = configData.paragraph * 2;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    dict[NSParagraphStyleAttributeName] = paragraphStyle;
+    
+    NSAttributedString *ret = [[NSAttributedString alloc] initWithString:contentStr
+                                                              attributes:dict];
+    return ret;
 }
 
 - (NSAttributedString *)getAttributeStrWithStr:(NSString *)contentStr configData:(SSConfigData *)configData {

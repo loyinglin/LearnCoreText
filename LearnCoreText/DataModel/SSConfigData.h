@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SSConfigData : NSObject
 
 @property (nonatomic, strong) UIFont *font; // 字体
+@property (nonatomic, strong) UIFont *titleFont; // 字体
 @property (nonatomic, strong) UIColor *textColor; // 字体颜色
 @property (nonatomic, assign) CGFloat paragraph; // 段间距
 @property (nonatomic, assign) CGFloat character; // 字间距

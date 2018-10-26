@@ -28,6 +28,7 @@
 		FDD7CD062180817700B0DEA2 /* SSReadingContextData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD052180817700B0DEA2 /* SSReadingContextData.m */; };
 		FDD7CD0921809F1A00B0DEA2 /* SSLayoutChapterData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD0821809F1A00B0DEA2 /* SSLayoutChapterData.m */; };
 		FDD7CD0C2181641200B0DEA2 /* SSPageControllManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD0B2181641200B0DEA2 /* SSPageControllManager.m */; };
+		FDD7CD0F2182B8ED00B0DEA2 /* SSAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD0E2182B8ED00B0DEA2 /* SSAdViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,8 @@
 		FDD7CD0821809F1A00B0DEA2 /* SSLayoutChapterData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSLayoutChapterData.m; sourceTree = "<group>"; };
 		FDD7CD0A2181641200B0DEA2 /* SSPageControllManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSPageControllManager.h; sourceTree = "<group>"; };
 		FDD7CD0B2181641200B0DEA2 /* SSPageControllManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSPageControllManager.m; sourceTree = "<group>"; };
+		FDD7CD0D2182B8ED00B0DEA2 /* SSAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSAdViewController.h; sourceTree = "<group>"; };
+		FDD7CD0E2182B8ED00B0DEA2 /* SSAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSAdViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +228,8 @@
 			children = (
 				FDD7CCFE21804EA700B0DEA2 /* SSPageViewController.h */,
 				FDD7CCFF21804EA700B0DEA2 /* SSPageViewController.m */,
+				FDD7CD0D2182B8ED00B0DEA2 /* SSAdViewController.h */,
+				FDD7CD0E2182B8ED00B0DEA2 /* SSAdViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -364,6 +369,7 @@
 				FDD7CD0921809F1A00B0DEA2 /* SSLayoutChapterData.m in Sources */,
 				FDD7CCB521801AF800B0DEA2 /* ViewController.m in Sources */,
 				FDD7CD062180817700B0DEA2 /* SSReadingContextData.m in Sources */,
+				FDD7CD0F2182B8ED00B0DEA2 /* SSAdViewController.m in Sources */,
 				FDD7CCE721801B3500B0DEA2 /* ContentViewController.m in Sources */,
 				FDD7CD0021804EA700B0DEA2 /* SSPageViewController.m in Sources */,
 				FDD7CD03218080C100B0DEA2 /* SSDataManager.m in Sources */,

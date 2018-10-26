@@ -45,6 +45,9 @@ NS_ASSUME_NONNULL_BEGIN
 //获取相邻页面的内容，isNext=YES表示获取下一页，NO表示获取上一页
 - (SSLayoutPageData *)getNearPageDataWithIsNext:(BOOL)isNext;
 
+// todo 同步初始化，后期可以改成callback，在初始化h完毕后回调，期间可以由UI层显示loading；
+- (void)syncInitFirstPage;
+
 @end
 
 NS_ASSUME_NONNULL_END
