@@ -108,8 +108,7 @@
     CFRelease(frameSetter);
     
     SSLayoutPageData *pageData = [[SSLayoutPageData alloc] initWithCTFrame:frameRef range:pageRange attributeStr:subString];
-    pageData.chapterId = layoutChapterData.chapterData.chapterId;
-    pageData.pageIndex = pageIndex;
+    [pageData addChapterInfoWithChapterId:layoutChapterData.chapterData.chapterId chapterTitle:layoutChapterData.chapterData.chapterTitle pageCount:layoutChapterData.pagesArr.count pageIndex:pageIndex];
     return pageData;
 }
 

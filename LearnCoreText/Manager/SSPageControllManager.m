@@ -61,6 +61,7 @@
         NSAssert(chapterData, @"emtpy data");
         self.curLayoutChapterData = [self getLayoutChapterData:chapterData configData:self.configData];
     }
+    [[NSUserDefaults standardUserDefaults] setObject:@(layoutPageData.pageIndex) forKey:KEY_READ_PAGE];
     self.readingContextData.curPage = layoutPageData.pageIndex;
     self.readingContextData.chapterId = layoutPageData.chapterId;
     // 为了防止网络异常情况，可以继续请求下相邻章节的数据

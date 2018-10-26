@@ -19,6 +19,7 @@
     chapterData.chapterId = chapterId;
     chapterData.lastChapterId = chapterId;
     chapterData.nextChapterId = chapterId;
+    chapterData.chapterTitle = @"第一章（测试标题）";
     chapterData.strContent = [attrStr.string stringByReplacingOccurrencesOfString:@"\\s*\\n+\\s*"
                                                                        withString:@"\n　　"
                                                                           options:NSRegularExpressionSearch // 匹配正则表达式

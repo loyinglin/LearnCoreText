@@ -107,9 +107,15 @@
                                      }];
 }
 
+
 - (SSReadingContextData *)loadReadingContextData {
     SSReadingContextData *ret = [[SSReadingContextData alloc] init];
-    ret.curPage = 0;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:KEY_READ_PAGE]) {
+        ret.curPage = [[[NSUserDefaults standardUserDefaults] objectForKey:KEY_READ_PAGE] intValue];
+    }
+    else {
+        ret.curPage = 0;
+    }
     ret.chapterId = @"1";
     ret.bookId = @"abc";
     ret.pageSize = CGSizeMake(CGRectGetWidth(self.view.bounds) - 2 * PageHorizontalMargin, CGRectGetHeight(self.view.bounds) - PageTop - PageBottom);

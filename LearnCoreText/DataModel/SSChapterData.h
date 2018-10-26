@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *chapterId; // 章节id（对应章节目录）
 
-@property (nonatomic, strong) NSString *chapterName; // 章节名
+@property (nonatomic, strong) NSString *chapterTitle; // 章节名
 
 @property (nonatomic, strong) NSDictionary *paragraphDict; // 段落数据，nsrange
 

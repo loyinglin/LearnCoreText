@@ -29,6 +29,7 @@
 		FDD7CD0921809F1A00B0DEA2 /* SSLayoutChapterData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD0821809F1A00B0DEA2 /* SSLayoutChapterData.m */; };
 		FDD7CD0C2181641200B0DEA2 /* SSPageControllManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD0B2181641200B0DEA2 /* SSPageControllManager.m */; };
 		FDD7CD0F2182B8ED00B0DEA2 /* SSAdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD0E2182B8ED00B0DEA2 /* SSAdViewController.m */; };
+		FDD7CD1621831F6A00B0DEA2 /* UIView+LYLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD1521831F6A00B0DEA2 /* UIView+LYLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,9 @@
 		FDD7CD0B2181641200B0DEA2 /* SSPageControllManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSPageControllManager.m; sourceTree = "<group>"; };
 		FDD7CD0D2182B8ED00B0DEA2 /* SSAdViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSAdViewController.h; sourceTree = "<group>"; };
 		FDD7CD0E2182B8ED00B0DEA2 /* SSAdViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSAdViewController.m; sourceTree = "<group>"; };
+		FDD7CD1421831F6A00B0DEA2 /* UIView+LYLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LYLayout.h"; sourceTree = "<group>"; };
+		FDD7CD1521831F6A00B0DEA2 /* UIView+LYLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LYLayout.m"; sourceTree = "<group>"; };
+		FDD7CD1821831FDD00B0DEA2 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,16 +147,16 @@
 		FDD7CCAF21801AF800B0DEA2 /* LearnCoreText */ = {
 			isa = PBXGroup;
 			children = (
+				FDD7CD1221831F6A00B0DEA2 /* vender */,
 				FDD7CCEF2180489600B0DEA2 /* Manager */,
 				FDD7CCE8218043ED00B0DEA2 /* DataModel */,
 				FDD7CCF921804BC500B0DEA2 /* View */,
 				FDD7CCFD21804E8400B0DEA2 /* ViewController */,
 				FDD7CCB021801AF800B0DEA2 /* AppDelegate.h */,
 				FDD7CCB121801AF800B0DEA2 /* AppDelegate.m */,
+				FDD7CD1721831FA100B0DEA2 /* support */,
 				FDD7CCB321801AF800B0DEA2 /* ViewController.h */,
 				FDD7CCB421801AF800B0DEA2 /* ViewController.m */,
-				FDD7CCE521801B3400B0DEA2 /* BackViewController.h */,
-				FDD7CCE321801B3400B0DEA2 /* BackViewController.m */,
 				FDD7CCE221801B3400B0DEA2 /* ContentViewController.h */,
 				FDD7CCE421801B3400B0DEA2 /* ContentViewController.m */,
 				FDD7CCB621801AF800B0DEA2 /* Main.storyboard */,
@@ -226,12 +230,39 @@
 		FDD7CCFD21804E8400B0DEA2 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				FDD7CCE521801B3400B0DEA2 /* BackViewController.h */,
+				FDD7CCE321801B3400B0DEA2 /* BackViewController.m */,
 				FDD7CCFE21804EA700B0DEA2 /* SSPageViewController.h */,
 				FDD7CCFF21804EA700B0DEA2 /* SSPageViewController.m */,
 				FDD7CD0D2182B8ED00B0DEA2 /* SSAdViewController.h */,
 				FDD7CD0E2182B8ED00B0DEA2 /* SSAdViewController.m */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		FDD7CD1221831F6A00B0DEA2 /* vender */ = {
+			isa = PBXGroup;
+			children = (
+				FDD7CD1321831F6A00B0DEA2 /* view */,
+			);
+			path = vender;
+			sourceTree = "<group>";
+		};
+		FDD7CD1321831F6A00B0DEA2 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				FDD7CD1421831F6A00B0DEA2 /* UIView+LYLayout.h */,
+				FDD7CD1521831F6A00B0DEA2 /* UIView+LYLayout.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		FDD7CD1721831FA100B0DEA2 /* support */ = {
+			isa = PBXGroup;
+			children = (
+				FDD7CD1821831FDD00B0DEA2 /* PrefixHeader.pch */,
+			);
+			path = support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -367,6 +398,7 @@
 				FDD7CD0C2181641200B0DEA2 /* SSPageControllManager.m in Sources */,
 				FDD7CCF5218048BF00B0DEA2 /* SSConfigData.m in Sources */,
 				FDD7CD0921809F1A00B0DEA2 /* SSLayoutChapterData.m in Sources */,
+				FDD7CD1621831F6A00B0DEA2 /* UIView+LYLayout.m in Sources */,
 				FDD7CCB521801AF800B0DEA2 /* ViewController.m in Sources */,
 				FDD7CD062180817700B0DEA2 /* SSReadingContextData.m in Sources */,
 				FDD7CD0F2182B8ED00B0DEA2 /* SSAdViewController.m in Sources */,
@@ -552,6 +584,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/LearnCoreText/support/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/*";
 				INFOPLIST_FILE = LearnCoreText/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -569,6 +603,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/LearnCoreText/support/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/*";
 				INFOPLIST_FILE = LearnCoreText/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

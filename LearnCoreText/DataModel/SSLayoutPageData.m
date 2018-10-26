@@ -20,6 +20,13 @@
     return self;
 }
 
+- (void)addChapterInfoWithChapterId:(NSString *)chapterId chapterTitle:(NSString *)chapterTitle pageCount:(NSUInteger)pageCount pageIndex:(NSUInteger)pageIndex {
+    self.chapterId = chapterId;
+    self.chapterTitle = chapterTitle;
+    self.pageCount = pageCount;
+    self.pageIndex = pageIndex;
+}
+
 - (void)dealloc {
     if (self.frameRef) {
         CFRelease(self.frameRef);

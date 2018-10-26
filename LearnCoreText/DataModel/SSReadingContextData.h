@@ -11,6 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+#define KEY_READ_PAGE @"KEY_READ_PAGE"
+
 @interface SSReadingContextData : NSObject
 
 @property (nonatomic, strong) NSString *bookId;
