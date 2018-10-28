@@ -31,13 +31,27 @@
  @param pageSize 页面大小
  @return NSValue，里面放着每页的NSRange
  */
-- (NSArray<NSValue *> *)getPagesArrtWithAttributeStr:(NSAttributedString *)attributeStr pageSize:(CGSize)pageSize {
+- (NSArray<NSValue *> *)getPagesArrtWithAttributeStr:(NSMutableAttributedString *)attributeStr pageSize:(CGSize)pageSize {
     NSMutableArray<NSValue *> *resultRange = [NSMutableArray array]; // 返回结果数组
     CGRect rect = CGRectMake(0, 0, pageSize.width, pageSize.height); // 每页的显示区域大小
     NSUInteger curIndex = 0; // 分页起点，初始为第0个字符
     while (curIndex < attributeStr.length) { // 没有超过最后的字符串，表明至少剩余一个字符
         NSUInteger maxLength = MIN(1000, attributeStr.length - curIndex); // 1000为最小字体的每页最大数量，减少计算量
         NSAttributedString * subString = [attributeStr attributedSubstringFromRange:NSMakeRange(curIndex, maxLength)]; // 截取字符串
+        
+        if (curIndex > 0 && [attributeStr.string characterAtIndex:curIndex - 1] != '\n') {
+            NSMutableParagraphStyle *style = [attributeStr attribute:NSParagraphStyleAttributeName atIndex:curIndex effectiveRange:NULL];
+            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle.firstLineHeadIndent = 0; // 跨页的逻辑处理太过复杂， 用换行的空格来替代
+            //    paragraphStyle.headIndent = 5;
+            paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+            paragraphStyle.lineSpacing = style.lineSpacing;
+            paragraphStyle.paragraphSpacing = style.paragraphSpacing;
+            paragraphStyle.alignment = NSTextAlignmentJustified;
+            [attributeStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(curIndex, 1)];
+        }
+        
+        
         CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef) subString); // 根据富文本创建排版类CTFramesetterRef
         UIBezierPath * bezierPath = [UIBezierPath bezierPathWithRect:rect];
         CTFrameRef frameRef = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), bezierPath.CGPath, NULL); // 创建排版数据，第个参数的range.length=0表示放字符直到区域填满
@@ -58,7 +72,7 @@
     dict[NSKernAttributeName] = @(configData.character);
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     
-    //    paragraphStyle.firstLineHeadIndent = [configData.font pointSize] * 2; // 跨页的逻辑处理太过复杂， 用换行的空格来替代
+        paragraphStyle.firstLineHeadIndent = [configData.font pointSize] * 2; // 跨页的逻辑处理太过复杂， 用换行的空格来替代
     //    paragraphStyle.headIndent = 5;
     
     paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
@@ -83,7 +97,7 @@
     dict[NSKernAttributeName] = @(configData.character);
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     
-//    paragraphStyle.firstLineHeadIndent = [configData.font pointSize] * 2; // 跨页的逻辑处理太过复杂， 用换行的空格来替代
+    paragraphStyle.firstLineHeadIndent = [configData.font pointSize] * 2; // 跨页的逻辑处理太过复杂， 用换行的空格来替代
 //    paragraphStyle.headIndent = 5;
     
     paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;

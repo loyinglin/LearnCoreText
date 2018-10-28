@@ -7,8 +7,7 @@
 //
 
 #import <CoreText/CoreText.h>
-#import "ViewController.h"
-#import "ContentViewController.h"
+#import "SSContentViewController.h"
 #import "BackViewController.h"
 #import "SSReadingContextData.h"
 #import "SSPageViewController.h"
@@ -19,7 +18,7 @@
 #import "SSPageControllManager.h"
 #import "SSAdViewController.h"
 
-@interface ViewController () <UIPageViewControllerDelegate, UIPageViewControllerDataSource>
+@interface SSContentViewController () <UIPageViewControllerDelegate, UIPageViewControllerDataSource>
 
 @property(nonatomic, strong) UIPageViewController *pageViewController;
 
@@ -29,7 +28,7 @@
 @property (nonatomic, assign) NSUInteger scrollCount;
 @end
 
-@implementation ViewController
+@implementation SSContentViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,6 +37,9 @@
     [self loadPageViewController];
     [self customInitFirstPage];
     [self setupGesture];
+    
+    self.navigationController.navigationBarHidden = YES;
+    self.tabBarController.tabBar.hidden = YES;
 }
 
 - (void)setupGesture {
@@ -52,6 +54,9 @@
         CGPoint point = [tap locationInView:tap.view];
         if (point.x <= TapGap || point.x > CGRectGetWidth(tap.view.bounds) - TapGap) {
             [self manualChangePageWithIsNext:point.x > CGRectGetWidth(tap.view.bounds) - TapGap];
+        }
+        else {
+            self.navigationController.navigationBarHidden = !self.navigationController.navigationBarHidden;
         }
     }
 }
@@ -155,7 +160,7 @@
 - (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     NSLog(@"viewControllerBeforeViewController");
     UIViewController *ret;
-    if ([viewController isKindOfClass:[ContentViewController class]] && pageViewController.transitionStyle == UIPageViewControllerTransitionStylePageCurl) {
+    if ([viewController isKindOfClass:[SSPageViewController class]] && pageViewController.transitionStyle == UIPageViewControllerTransitionStylePageCurl) {
         BackViewController *backVC = [[BackViewController alloc] init];
         [backVC updateWithViewController:viewController];
         ret = backVC;
@@ -169,7 +174,7 @@
 - (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     NSLog(@"viewControllerAfterViewController");
     UIViewController *ret;
-    if ([viewController isKindOfClass:[ContentViewController class]] && pageViewController.transitionStyle == UIPageViewControllerTransitionStylePageCurl) {
+    if ([viewController isKindOfClass:[SSPageViewController class]] && pageViewController.transitionStyle == UIPageViewControllerTransitionStylePageCurl) {
         BackViewController *backVC = [[BackViewController alloc] init];
         [backVC updateWithViewController:viewController];
         ret = backVC;
