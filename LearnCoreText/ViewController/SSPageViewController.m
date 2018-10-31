@@ -30,10 +30,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor greenColor];
-    self.pageView = [[SSPageView alloc] initWithFrame:CGRectMake(PageHorizontalMargin, PageTop, CGRectGetWidth(self.view.bounds) - PageHorizontalMargin * 2, CGRectGetHeight(self.view.bounds) - PageTop - PageBottom)];
+    self.pageView = [[SSPageView alloc] initWithFrame:CGRectMake(PageHorizontalMargin, PageTop, CGRectGetWidth(self.view.bounds) - PageHorizontalMargin * 2,
+                                                                 CGRectGetHeight(self.view.bounds) - PageTop - PageBottom
+                                                                 )];
     self.pageView.pageData = self.pageData;
     [self.view addSubview:self.pageView];
+    self.view.backgroundColor = self.pageView.backgroundColor;
     
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.text = self.pageData.chapterTitle;
@@ -41,10 +43,11 @@
     self.titleLabel.width = self.view.width - 100;
     self.titleLabel.left = 10;
     self.titleLabel.top = 42;
-    [self.view addSubview:self.titleLabel];
+//    [self.view addSubview:self.titleLabel];
     
     self.indexLabel = [[UILabel alloc] init];
     self.indexLabel.text = [NSString stringWithFormat:@"%lu/%lu", self.pageData.pageIndex + 1, self.pageData.pageCount];
+    self.indexLabel.textColor = [UIColor grayColor];
     [self.indexLabel sizeToFit];
     self.indexLabel.bottom = self.view.height - 10;
     self.indexLabel.left = 10;
@@ -56,7 +59,7 @@
     [self.batteryLabel sizeToFit];
     self.batteryLabel.bottom = self.view.height - 10;
     self.batteryLabel.right = self.view.right - 10;
-    [self.view addSubview:self.batteryLabel];
+//    [self.view addSubview:self.batteryLabel];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceBatteryLevelDidChangeNotification
                                                       object:nil

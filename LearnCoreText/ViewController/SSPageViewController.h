@@ -12,8 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define PageTop (66)
-#define PageBottom (50)
+#define PageTop (35)
+#define PageBottom (45)
 #define PageHorizontalMargin (10)
 
 /**

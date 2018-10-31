@@ -64,7 +64,16 @@
 - (void)manualChangePageWithIsNext:(BOOL)isNext {
     UIViewController *vc = [self getNearVCWithIsNext:isNext curViewController:self.pageViewController.viewControllers[0]];
     __weak typeof(self) weakSelf = self;
-    [self.pageViewController setViewControllers:@[vc]
+    NSArray *vcArr;
+    if (self.pageViewController.transitionStyle == UIPageViewControllerTransitionStylePageCurl) {
+        BackViewController *backVC = [[BackViewController alloc] init];
+        [backVC updateWithViewController:vc];
+        vcArr = @[vc, backVC];
+    }
+    else {
+        vcArr = @[vc];
+    }
+    [self.pageViewController setViewControllers:vcArr
                                       direction:isNext ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse
                                        animated:YES
                                      completion:^(BOOL finished) {
@@ -78,13 +87,13 @@
 }
 
 - (void)loadPageViewController {
-    self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
+    self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl
                                                               navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
                                                                             options:@{UIPageViewControllerOptionSpineLocationKey:@(UIPageViewControllerSpineLocationMin)}];
     self.pageViewController.delegate = self;
     self.pageViewController.dataSource = self;
     self.pageViewController.doubleSided = YES;
-    self.pageViewController.view.backgroundColor = [UIColor greenColor];
+    self.pageViewController.view.backgroundColor = BackgroundColor;
     [self.view addSubview:self.pageViewController.view];
     [self addChildViewController:self.pageViewController];
 }
@@ -140,7 +149,7 @@
 
 - (UIViewController *)getNearVCWithIsNext:(BOOL)isNext curViewController:(UIViewController *)curVC {
     UIViewController *ret;
-    if (![curVC isKindOfClass:[SSAdViewController class]] && self.scrollCount % 3 == 2) {
+    if (![curVC isKindOfClass:[SSAdViewController class]] && self.scrollCount % 3 == 2 && NO) {
         ret = [[SSAdViewController alloc] init];
     }
     else {

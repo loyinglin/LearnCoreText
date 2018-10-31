@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FDA1BFAE21874C2B00BC83C4 /* panda.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA1BFAD21874C2B00BC83C4 /* panda.png */; };
 		FDD7CCB221801AF800B0DEA2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCB121801AF800B0DEA2 /* AppDelegate.m */; };
 		FDD7CCB521801AF800B0DEA2 /* SSContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCB421801AF800B0DEA2 /* SSContentViewController.m */; };
 		FDD7CCB821801AF800B0DEA2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDD7CCB621801AF800B0DEA2 /* Main.storyboard */; };
@@ -51,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FDA1BFAD21874C2B00BC83C4 /* panda.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panda.png; sourceTree = "<group>"; };
+		FDA76F9A21894C800056040E /* SSCommonMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSCommonMacro.h; sourceTree = "<group>"; };
 		FDD7CCAD21801AF800B0DEA2 /* LearnCoreText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnCoreText.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD7CCB021801AF800B0DEA2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FDD7CCB121801AF800B0DEA2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -158,8 +161,6 @@
 				FDD7CCB021801AF800B0DEA2 /* AppDelegate.h */,
 				FDD7CCB121801AF800B0DEA2 /* AppDelegate.m */,
 				FDD7CD1721831FA100B0DEA2 /* support */,
-				FDD7CCB321801AF800B0DEA2 /* SSContentViewController.h */,
-				FDD7CCB421801AF800B0DEA2 /* SSContentViewController.m */,
 				FDD7CD3E218342D400B0DEA2 /* BookshelfViewController.h */,
 				FDD7CD3F218342D400B0DEA2 /* BookshelfViewController.m */,
 				FDD7CD3B218341B000B0DEA2 /* SSTabBarViewController.h */,
@@ -235,6 +236,8 @@
 		FDD7CCFD21804E8400B0DEA2 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				FDD7CCB321801AF800B0DEA2 /* SSContentViewController.h */,
+				FDD7CCB421801AF800B0DEA2 /* SSContentViewController.m */,
 				FDD7CCE521801B3400B0DEA2 /* BackViewController.h */,
 				FDD7CCE321801B3400B0DEA2 /* BackViewController.m */,
 				FDD7CCFE21804EA700B0DEA2 /* SSPageViewController.h */,
@@ -265,7 +268,9 @@
 		FDD7CD1721831FA100B0DEA2 /* support */ = {
 			isa = PBXGroup;
 			children = (
+				FDA1BFAD21874C2B00BC83C4 /* panda.png */,
 				FDD7CD1821831FDD00B0DEA2 /* PrefixHeader.pch */,
+				FDA76F9A21894C800056040E /* SSCommonMacro.h */,
 			);
 			path = support;
 			sourceTree = "<group>";
@@ -373,6 +378,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDA1BFAE21874C2B00BC83C4 /* panda.png in Resources */,
 				FDD7CCBD21801AF900B0DEA2 /* LaunchScreen.storyboard in Resources */,
 				FDD7CCBA21801AF900B0DEA2 /* Assets.xcassets in Resources */,
 				FDD7CCB821801AF800B0DEA2 /* Main.storyboard in Resources */,
@@ -592,6 +598,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/LearnCoreText/support/PrefixHeader.pch";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/*";
 				INFOPLIST_FILE = LearnCoreText/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

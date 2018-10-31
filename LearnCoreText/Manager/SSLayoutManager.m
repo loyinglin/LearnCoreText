@@ -18,7 +18,7 @@
      3、传入分页内容、页数、富文本，传出当页数据；
      */
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
-    [attrStr appendAttributedString:[self getTitleAttributeStrWithStr:[NSString stringWithFormat:@"第%@章 测试的标题\n", chapterData.chapterId] configData:configData]];
+    [attrStr appendAttributedString:[self getTitleAttributeStrWithStr:[NSString stringWithFormat:@"\n第%@章 测试的标题\n", chapterData.chapterId] configData:configData]];
     [attrStr appendAttributedString:[self getAttributeStrWithStr:chapterData.strContent configData:configData]];
     NSArray *pagesArr = [self getPagesArrtWithAttributeStr:attrStr pageSize:pageSize];
     SSLayoutChapterData *layoutChapterData = [[SSLayoutChapterData alloc] initWithChapterData:chapterData pagesArray:pagesArr attrStr:attrStr pageSize:pageSize];
@@ -77,7 +77,8 @@
     
     paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
     paragraphStyle.lineSpacing = configData.line;
-    paragraphStyle.paragraphSpacing = configData.paragraph * 2;
+    paragraphStyle.paragraphSpacingBefore = configData.paragraph;
+    paragraphStyle.paragraphSpacing = configData.paragraph;
     paragraphStyle.alignment = NSTextAlignmentCenter;
     dict[NSParagraphStyleAttributeName] = paragraphStyle;
     
