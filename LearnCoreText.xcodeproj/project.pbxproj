@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		FDA1BFAE21874C2B00BC83C4 /* panda.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA1BFAD21874C2B00BC83C4 /* panda.png */; };
+		FDA76F9D21899D5B0056040E /* SSLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA76F9C21899D5B0056040E /* SSLoadingViewController.m */; };
+		FDA76FA32189ADDB0056040E /* SSAdvertisingData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA76FA22189ADDB0056040E /* SSAdvertisingData.m */; };
 		FDD7CCB221801AF800B0DEA2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCB121801AF800B0DEA2 /* AppDelegate.m */; };
 		FDD7CCB521801AF800B0DEA2 /* SSContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCB421801AF800B0DEA2 /* SSContentViewController.m */; };
 		FDD7CCB821801AF800B0DEA2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDD7CCB621801AF800B0DEA2 /* Main.storyboard */; };
@@ -54,6 +56,10 @@
 /* Begin PBXFileReference section */
 		FDA1BFAD21874C2B00BC83C4 /* panda.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = panda.png; sourceTree = "<group>"; };
 		FDA76F9A21894C800056040E /* SSCommonMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSCommonMacro.h; sourceTree = "<group>"; };
+		FDA76F9B21899D5B0056040E /* SSLoadingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSLoadingViewController.h; sourceTree = "<group>"; };
+		FDA76F9C21899D5B0056040E /* SSLoadingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSLoadingViewController.m; sourceTree = "<group>"; };
+		FDA76FA12189ADDB0056040E /* SSAdvertisingData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSAdvertisingData.h; sourceTree = "<group>"; };
+		FDA76FA22189ADDB0056040E /* SSAdvertisingData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSAdvertisingData.m; sourceTree = "<group>"; };
 		FDD7CCAD21801AF800B0DEA2 /* LearnCoreText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnCoreText.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD7CCB021801AF800B0DEA2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FDD7CCB121801AF800B0DEA2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -130,6 +136,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FDA76F9E2189AD220056040E /* data */ = {
+			isa = PBXGroup;
+			children = (
+				FDD7CCE92180444900B0DEA2 /* SSChapterData.h */,
+				FDD7CCEA2180444900B0DEA2 /* SSChapterData.m */,
+				FDA76FA12189ADDB0056040E /* SSAdvertisingData.h */,
+				FDA76FA22189ADDB0056040E /* SSAdvertisingData.m */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		FDA76F9F2189AD320056040E /* layout */ = {
+			isa = PBXGroup;
+			children = (
+				FDD7CCEC2180456A00B0DEA2 /* SSLayoutPageData.h */,
+				FDD7CCED2180456A00B0DEA2 /* SSLayoutPageData.m */,
+				FDD7CD0721809F1A00B0DEA2 /* SSLayoutChapterData.h */,
+				FDD7CD0821809F1A00B0DEA2 /* SSLayoutChapterData.m */,
+			);
+			path = layout;
+			sourceTree = "<group>";
+		};
+		FDA76FA02189AD5D0056040E /* reading */ = {
+			isa = PBXGroup;
+			children = (
+				FDD7CCF3218048BF00B0DEA2 /* SSConfigData.h */,
+				FDD7CCF4218048BF00B0DEA2 /* SSConfigData.m */,
+				FDD7CD042180817700B0DEA2 /* SSReadingContextData.h */,
+				FDD7CD052180817700B0DEA2 /* SSReadingContextData.m */,
+			);
+			path = reading;
+			sourceTree = "<group>";
+		};
 		FDD7CCA421801AF800B0DEA2 = {
 			isa = PBXGroup;
 			children = (
@@ -195,16 +234,9 @@
 		FDD7CCE8218043ED00B0DEA2 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
-				FDD7CCE92180444900B0DEA2 /* SSChapterData.h */,
-				FDD7CCEA2180444900B0DEA2 /* SSChapterData.m */,
-				FDD7CCEC2180456A00B0DEA2 /* SSLayoutPageData.h */,
-				FDD7CCED2180456A00B0DEA2 /* SSLayoutPageData.m */,
-				FDD7CD0721809F1A00B0DEA2 /* SSLayoutChapterData.h */,
-				FDD7CD0821809F1A00B0DEA2 /* SSLayoutChapterData.m */,
-				FDD7CCF3218048BF00B0DEA2 /* SSConfigData.h */,
-				FDD7CCF4218048BF00B0DEA2 /* SSConfigData.m */,
-				FDD7CD042180817700B0DEA2 /* SSReadingContextData.h */,
-				FDD7CD052180817700B0DEA2 /* SSReadingContextData.m */,
+				FDA76F9E2189AD220056040E /* data */,
+				FDA76F9F2189AD320056040E /* layout */,
+				FDA76FA02189AD5D0056040E /* reading */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -244,6 +276,8 @@
 				FDD7CCFF21804EA700B0DEA2 /* SSPageViewController.m */,
 				FDD7CD0D2182B8ED00B0DEA2 /* SSAdViewController.h */,
 				FDD7CD0E2182B8ED00B0DEA2 /* SSAdViewController.m */,
+				FDA76F9B21899D5B0056040E /* SSLoadingViewController.h */,
+				FDA76F9C21899D5B0056040E /* SSLoadingViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -421,6 +455,8 @@
 				FDD7CCF2218048A000B0DEA2 /* SSLayoutManager.m in Sources */,
 				FDD7CCFC21804BE600B0DEA2 /* SSPageView.m in Sources */,
 				FDD7CCEE2180456A00B0DEA2 /* SSLayoutPageData.m in Sources */,
+				FDA76F9D21899D5B0056040E /* SSLoadingViewController.m in Sources */,
+				FDA76FA32189ADDB0056040E /* SSAdvertisingData.m in Sources */,
 				FDD7CCB221801AF800B0DEA2 /* AppDelegate.m in Sources */,
 				FDD7CCE621801B3500B0DEA2 /* BackViewController.m in Sources */,
 				FDD7CCF82180491700B0DEA2 /* SSTransformManager.m in Sources */,

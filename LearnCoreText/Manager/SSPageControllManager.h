@@ -16,6 +16,35 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
+@protocol SSPageControllDelegate <NSObject>
+
+@required
+
+
+@optional
+
+- (void)onDataReadyWithChapterId:(NSString *)chapterId;
+
+@end
+
+
+typedef NS_ENUM(NSUInteger, SSPageControllType) {
+    SSPageControllTypeNormal, // 正常渲染
+//    SSPageControllTypeAd,     // 广告页，  暂不翻页逻辑耦合，
+    SSPageControllTypeLoading,  // 空页面，显示loading
+    SSPageControllTypePay,    // 渲染部分文字，同时覆盖购买界面
+};
+
+@interface SSPageControllData : NSObject
+
+@property (nonatomic, assign) SSPageControllType pageControllType;
+@property (nonatomic, strong) SSLayoutPageData *layoutPageData; // 页面渲染的数据
+@property (nonatomic, strong) NSString *loadingChapterId; // 章节的数据
+
+- (instancetype)initWithType:(SSPageControllType)type;
+
+@end
+
 /**
  分页控制器，持有阅读器中所有章节数据
  
@@ -34,6 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  进入新的页面阅读
+ 更新阅读进度，预加载相邻章节
  */
 - (void)onNewPageDidAppear:(SSLayoutPageData *)layoutPageData;
 
@@ -42,8 +72,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (SSLayoutPageData *)getCurrentPageData;
 
-//获取相邻页面的内容，isNext=YES表示获取下一页，NO表示获取上一页
-- (SSLayoutPageData *)getNearPageDataWithIsNext:(BOOL)isNext;
+/**
+ 获取相邻页面的内容
+
+ @param isNext YES表示获取下一页，NO表示获取上一页；
+ @return 页面排版数据，为空表示还没数据
+ */
+- (SSPageControllData *)getNearPageDataWithIsNext:(BOOL)isNext;
 
 // todo 同步初始化，后期可以改成callback，在初始化h完毕后回调，期间可以由UI层显示loading；
 - (void)syncInitFirstPage;

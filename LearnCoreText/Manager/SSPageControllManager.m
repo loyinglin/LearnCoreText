@@ -11,6 +11,20 @@
 #import "SSDataManager.h"
 
 
+@implementation SSPageControllData
+
+- (instancetype)initWithType:(SSPageControllType)type {
+    self = [super init];
+    if (self) {
+        self.pageControllType = type;
+    }
+    return self;
+}
+
+
+@end
+
+
 @interface SSPageControllManager ()
 
 @property (nonatomic, strong) SSReadingContextData *readingContextData;
@@ -49,9 +63,6 @@
 }
 
 
-/**
- 新的页面出现，更新当前章节
- */
 - (void)onNewPageDidAppear:(SSLayoutPageData *)layoutPageData {
     if (layoutPageData.chapterId == self.curLayoutChapterData.chapterData.chapterId) { // 新出现的仍是本章节
         
@@ -75,11 +86,13 @@
     }
 }
 
-- (SSLayoutPageData *)getNearPageDataWithIsNext:(BOOL)isNext {
-    SSLayoutPageData *ret;
+- (SSPageControllData *)getNearPageDataWithIsNext:(BOOL)isNext {
+    SSPageControllData *ret;
+    
     NSInteger newIndex = isNext ? self.readingContextData.curPage + 1 : self.readingContextData.curPage - 1;
     if (newIndex < self.curLayoutChapterData.pagesArr.count) { // 本章节
-        ret = [self.layoutManager getLayoutPageDataWithLayoutChapterData:self.curLayoutChapterData pageIndex:newIndex];
+        ret = [[SSPageControllData alloc] initWithType:SSPageControllTypeNormal];
+        ret.layoutPageData = [self.layoutManager getLayoutPageDataWithLayoutChapterData:self.curLayoutChapterData pageIndex:newIndex];
     }
     else {
         NSString *newChapterId = isNext ? self.curLayoutChapterData.chapterData.nextChapterId : self.curLayoutChapterData.chapterData.lastChapterId;
@@ -88,14 +101,15 @@
                 SSChapterData *newChapterData = [self.chapterDataDict objectForKey:newChapterId];
                 SSLayoutChapterData *newLayoutChapterData = [self.layoutManager getLayoutChapterDataWithChapterData:newChapterData configData:self.configData pageSize:self.readingContextData.pageSize];
                 newIndex = isNext ? 0 : newLayoutChapterData.pagesArr.count - 1;
-                ret = [self.layoutManager getLayoutPageDataWithLayoutChapterData:newLayoutChapterData pageIndex:newIndex];
+                
+                ret = [[SSPageControllData alloc] initWithType:SSPageControllTypeNormal];
+                ret.layoutPageData = [self.layoutManager getLayoutPageDataWithLayoutChapterData:newLayoutChapterData pageIndex:newIndex];
             }
             else {
+                ret = [[SSPageControllData alloc] initWithType:SSPageControllTypeLoading];
+                ret.loadingChapterId = newChapterId;
                 [self loadChapterDataWithChapterId:newChapterId];
             }
-        }
-        else {
-            NSLog(@"reach end: %d", isNext);
         }
     }
     

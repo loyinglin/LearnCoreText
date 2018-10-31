@@ -52,12 +52,12 @@
     
     if (self.pageData && self.pageData.frameRef) {
         CGContextRef context = UIGraphicsGetCurrentContext();
-        NSLog(@"CGContext default matrix %@", NSStringFromCGAffineTransform(CGContextGetCTM(context)));
+//        NSLog(@"CGContext default matrix %@", NSStringFromCGAffineTransform(CGContextGetCTM(context)));
 //        CGContextSetTextMatrix(context, CGAffineTransformIdentity);
         CGContextScaleCTM(context, 1.0, -1.0);
         CGContextTranslateCTM(context, 0, -self.bounds.size.height);
         
-        NSLog(@"CGContext reset matrix %@", NSStringFromCGAffineTransform(CGContextGetCTM(context)));
+//        NSLog(@"CGContext reset matrix %@", NSStringFromCGAffineTransform(CGContextGetCTM(context)));
         
         CTFrameDraw(self.pageData.frameRef, context);
     }

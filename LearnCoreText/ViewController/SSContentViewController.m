@@ -17,6 +17,7 @@
 #import "SSLayoutChapterData.h"
 #import "SSPageControllManager.h"
 #import "SSAdViewController.h"
+#import "SSLoadingViewController.h"
 
 @interface SSContentViewController () <UIPageViewControllerDelegate, UIPageViewControllerDataSource>
 
@@ -87,7 +88,7 @@
 }
 
 - (void)loadPageViewController {
-    self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl
+    self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
                                                               navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
                                                                             options:@{UIPageViewControllerOptionSpineLocationKey:@(UIPageViewControllerSpineLocationMin)}];
     self.pageViewController.delegate = self;
@@ -149,20 +150,21 @@
 
 - (UIViewController *)getNearVCWithIsNext:(BOOL)isNext curViewController:(UIViewController *)curVC {
     UIViewController *ret;
-    if (![curVC isKindOfClass:[SSAdViewController class]] && self.scrollCount % 3 == 2 && NO) {
+    if (![curVC isKindOfClass:[SSAdViewController class]] && self.scrollCount % 3 == 4) {
         ret = [[SSAdViewController alloc] init];
     }
     else {
-        SSLayoutPageData *pageData = [self.pageControllManager getNearPageDataWithIsNext:isNext];
-        if (pageData) {
-            SSPageViewController *pageVC = [[SSPageViewController alloc] initWithPageData:pageData];
+        SSPageControllData *pageControllData = [self.pageControllManager getNearPageDataWithIsNext:isNext];
+        if (pageControllData.pageControllType == SSPageControllTypeNormal) {
+            SSPageViewController *pageVC = [[SSPageViewController alloc] initWithPageData:pageControllData.layoutPageData];
             ret = pageVC;
         }
-        else {
-            NSLog(@"getNearVCWithIsNext null , isNext %d", isNext);
+        else if (pageControllData.pageControllType == SSPageControllTypeLoading) {
+            SSLoadingViewController *loadingVC = [[SSLoadingViewController alloc] init];
+            loadingVC.loadingChapterId = pageControllData.loadingChapterId;
+            ret = loadingVC;
         }
     }
-    
     return ret;
 }
 
@@ -195,7 +197,6 @@
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
-    NSLog(@"didFinishAnimating");
     if (completed && [self.pageViewController.viewControllers[0] isKindOfClass:[SSPageViewController class]]) {
         SSPageViewController *pageViewController = (SSPageViewController *)self.pageViewController.viewControllers[0];
         [self.pageControllManager onNewPageDidAppear:pageViewController.pageData];
