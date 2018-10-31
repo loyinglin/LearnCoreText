@@ -18,7 +18,7 @@
      3、传入分页内容、页数、富文本，传出当页数据；
      */
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] init];
-    [attrStr appendAttributedString:[self getTitleAttributeStrWithStr:[NSString stringWithFormat:@"\n第%@章 测试的标题\n", chapterData.chapterId] configData:configData]];
+    [attrStr appendAttributedString:[self getTitleAttributeStrWithStr:[NSString stringWithFormat:@"\n第%@章 保护起来\n", chapterData.chapterId] configData:configData]];
     [attrStr appendAttributedString:[self getAttributeStrWithStr:chapterData.strContent configData:configData]];
     NSArray *pagesArr = [self getPagesArrtWithAttributeStr:attrStr pageSize:pageSize];
     SSLayoutChapterData *layoutChapterData = [[SSLayoutChapterData alloc] initWithChapterData:chapterData pagesArray:pagesArr attrStr:attrStr pageSize:pageSize];
@@ -71,10 +71,6 @@
     dict[NSForegroundColorAttributeName] = configData.textColor;
     dict[NSKernAttributeName] = @(configData.character);
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    
-        paragraphStyle.firstLineHeadIndent = [configData.font pointSize] * 2; // 跨页的逻辑处理太过复杂， 用换行的空格来替代
-    //    paragraphStyle.headIndent = 5;
-    
     paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
     paragraphStyle.lineSpacing = configData.line;
     paragraphStyle.paragraphSpacingBefore = configData.paragraph;
@@ -127,7 +123,7 @@
     return pageData;
 }
 
-
+// apple demo
 - (void)calculateLineWithView:(UIView *)view {
     double width; CGContextRef context; CGPoint textPosition; CFMutableAttributedStringRef attrString;
     // Initialize those variables.
@@ -172,38 +168,5 @@
     start += count;
 }
 
-NSAttributedString* applyParaStyle(CFStringRef fontName , CGFloat pointSize,
-                                   NSString *plainText, CGFloat lineSpaceInc) {
-    
-    // Create the font so we can determine its height.
-    CTFontRef font = CTFontCreateWithName(fontName, pointSize, NULL);
-    
-    // Set the lineSpacing.
-    CGFloat lineSpacing = (CTFontGetLeading(font) + lineSpaceInc) * 2;
-    
-    // Create the paragraph style settings.
-    CTParagraphStyleSetting setting;
-    
-    setting.spec = kCTParagraphStyleSpecifierLineSpacing;
-    setting.valueSize = sizeof(CGFloat);
-    setting.value = &lineSpacing;
-    
-    CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(&setting, 1);
-    
-    // Add the paragraph style to the dictionary.
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                (__bridge id)font, (id)kCTFontNameAttribute,
-                                (__bridge id)paragraphStyle,
-                                (id)kCTParagraphStyleAttributeName, nil];
-    CFRelease(font);
-    CFRelease(paragraphStyle);
-    
-    // Apply the paragraph style to the string to created the attributed string.
-    NSAttributedString* attrString = [[NSAttributedString alloc]
-                                      initWithString:(NSString*)plainText
-                                      attributes:attributes];
-    
-    return attrString;
-}
 
 @end
