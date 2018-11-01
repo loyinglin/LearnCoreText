@@ -16,6 +16,7 @@
 
 - (instancetype)initWithSSPageControllData:(SSPageControllData *)pageControllData {
     if (self = [super init]) {
+        NSAssert(pageControllData, @"initWithSSPageControllData data is null");
         _pageControllData = pageControllData;
     }
     return self;

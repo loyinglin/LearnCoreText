@@ -63,6 +63,8 @@
                 self.curLayoutChapterData = [self getLayoutChapterData:chapterData configData:self.configData];
             }
             [[NSUserDefaults standardUserDefaults] setObject:@(layoutPageData.pageIndex) forKey:KEY_READ_PAGE]; // 缓存
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
             self.readingContextData.curPage = layoutPageData.pageIndex;
             self.readingContextData.chapterId = layoutPageData.chapterId;
             

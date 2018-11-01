@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, SSPageControllType) {
-    SSPageControllTypeNormal, // 正常渲染
+    SSPageControllTypeNormal = 1, // 正常渲染
     SSPageControllTypeAd,     // 广告页，  暂不翻页逻辑耦合，
     SSPageControllTypeLoading,  // 空页面，显示loading
     SSPageControllTypePay,    // 渲染部分文字，同时覆盖购买界面

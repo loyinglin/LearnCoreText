@@ -20,7 +20,7 @@
 		FDD7CCC021801AF900B0DEA2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCBF21801AF900B0DEA2 /* main.m */; };
 		FDD7CCCA21801AF900B0DEA2 /* LearnCoreTextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCC921801AF900B0DEA2 /* LearnCoreTextTests.m */; };
 		FDD7CCD521801AF900B0DEA2 /* LearnCoreTextUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCD421801AF900B0DEA2 /* LearnCoreTextUITests.m */; };
-		FDD7CCE621801B3500B0DEA2 /* BackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCE321801B3400B0DEA2 /* BackViewController.m */; };
+		FDD7CCE621801B3500B0DEA2 /* SSBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCE321801B3400B0DEA2 /* SSBackViewController.m */; };
 		FDD7CCEB2180444900B0DEA2 /* SSChapterData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCEA2180444900B0DEA2 /* SSChapterData.m */; };
 		FDD7CCEE2180456A00B0DEA2 /* SSLayoutPageData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCED2180456A00B0DEA2 /* SSLayoutPageData.m */; };
 		FDD7CCF2218048A000B0DEA2 /* SSLayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCF1218048A000B0DEA2 /* SSLayoutManager.m */; };
@@ -82,8 +82,8 @@
 		FDD7CCD021801AF900B0DEA2 /* LearnCoreTextUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LearnCoreTextUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD7CCD421801AF900B0DEA2 /* LearnCoreTextUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LearnCoreTextUITests.m; sourceTree = "<group>"; };
 		FDD7CCD621801AF900B0DEA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FDD7CCE321801B3400B0DEA2 /* BackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackViewController.m; sourceTree = "<group>"; };
-		FDD7CCE521801B3400B0DEA2 /* BackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackViewController.h; sourceTree = "<group>"; };
+		FDD7CCE321801B3400B0DEA2 /* SSBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSBackViewController.m; sourceTree = "<group>"; };
+		FDD7CCE521801B3400B0DEA2 /* SSBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSBackViewController.h; sourceTree = "<group>"; };
 		FDD7CCE92180444900B0DEA2 /* SSChapterData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSChapterData.h; sourceTree = "<group>"; };
 		FDD7CCEA2180444900B0DEA2 /* SSChapterData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSChapterData.m; sourceTree = "<group>"; };
 		FDD7CCEC2180456A00B0DEA2 /* SSLayoutPageData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSLayoutPageData.h; sourceTree = "<group>"; };
@@ -278,8 +278,8 @@
 			children = (
 				FDD7CCB321801AF800B0DEA2 /* SSContentViewController.h */,
 				FDD7CCB421801AF800B0DEA2 /* SSContentViewController.m */,
-				FDD7CCE521801B3400B0DEA2 /* BackViewController.h */,
-				FDD7CCE321801B3400B0DEA2 /* BackViewController.m */,
+				FDD7CCE521801B3400B0DEA2 /* SSBackViewController.h */,
+				FDD7CCE321801B3400B0DEA2 /* SSBackViewController.m */,
 				FDD7CCFE21804EA700B0DEA2 /* SSPageViewController.h */,
 				FDD7CCFF21804EA700B0DEA2 /* SSPageViewController.m */,
 				FDD7CD0D2182B8ED00B0DEA2 /* SSAdViewController.h */,
@@ -469,7 +469,7 @@
 				FDA76F9D21899D5B0056040E /* SSLoadingViewController.m in Sources */,
 				FDA76FA32189ADDB0056040E /* SSAdvertisingData.m in Sources */,
 				FDD7CCB221801AF800B0DEA2 /* AppDelegate.m in Sources */,
-				FDD7CCE621801B3500B0DEA2 /* BackViewController.m in Sources */,
+				FDD7CCE621801B3500B0DEA2 /* SSBackViewController.m in Sources */,
 				FDA76FA62189CEFF0056040E /* SSPageControllData.m in Sources */,
 				FDD7CCF82180491700B0DEA2 /* SSTransformManager.m in Sources */,
 				FDD7CCEB2180444900B0DEA2 /* SSChapterData.m in Sources */,

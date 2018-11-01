@@ -5,17 +5,17 @@
 //  Created by loyinglin on 2018/10/24.
 //  Copyright © 2018 loyinglin. All rights reserved.
 //
-#import "BackViewController.h"
+#import "SSBackViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface BackViewController ()
+@interface SSBackViewController ()
 
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImage *backgroundImage;
 
 @end
 
-@implementation BackViewController
+@implementation SSBackViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
