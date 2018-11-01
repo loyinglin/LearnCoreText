@@ -68,7 +68,6 @@
         NSLog(@"manualChangePageWithIsNext empty, is next : %d", isNext);
         return ;
     }
-    self.pageViewController.view.userInteractionEnabled = NO;
     __weak typeof(self) weakSelf = self;
     NSArray *vcArr;
     if (self.pageViewController.transitionStyle == UIPageViewControllerTransitionStylePageCurl) {
@@ -79,19 +78,22 @@
     else {
         vcArr = @[vc];
     }
+    
+    if ([vc isKindOfClass:[SSBasePageViewController class]]) { // 这段统计需要提前。
+        [self.pageControllManager onNewPageDidAppear:[(SSBasePageViewController *)vc pageControllData]];
+        ++self.scrollCount; // 统计曝光
+    }
+    
+    self.pageViewController.view.userInteractionEnabled = NO;
+    NSLog(@"manualChangePageWithIsNext ");
+    UIPageViewControllerNavigationDirection direction = isNext ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse;
     [self.pageViewController setViewControllers:vcArr
-                                      direction:isNext ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse
-                                       animated:YES // 为NO，可以和微信读书对齐，同时也防止在连续点击的时候，出现异常
+                                      direction:direction
+                                       animated:NO // 为NO，可以和微信读书对齐，同时也防止在连续点击的时候，出现异常
                                      completion:^(BOOL finished) {
                                          NSLog(@"manualChangePageWithIsNext setViewControllers finished:%d", finished);
                                          __strong typeof(self) strongSelf = weakSelf;
-                                         dispatch_async(dispatch_get_main_queue(), ^{ // magic code
-                                             strongSelf.pageViewController.view.userInteractionEnabled = YES;
-                                         });
-                                         if ([vc isKindOfClass:[SSBasePageViewController class]]) {
-                                             [strongSelf.pageControllManager onNewPageDidAppear:[(SSBasePageViewController *)vc pageControllData]];
-                                             ++strongSelf.scrollCount; // 统计曝光
-                                         }
+                                         strongSelf.pageViewController.view.userInteractionEnabled = YES;
                                      }];
 }
 
@@ -116,26 +118,24 @@
 
 
 - (void)customInitFirstPage {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        SSPageControllData *pageData = [self.pageControllManager getFirstPageControllData];
-        UIViewController *vc = [self getViewControllerWithPageControllData:pageData];
-        self.scrollCount = 0;
-        NSArray *vcArr = @[vc];
-        if (self.pageViewController.transitionStyle == UIPageViewControllerTransitionStylePageCurl) {
-            SSBackViewController *backVC = [[SSBackViewController alloc] init];
-            [backVC updateWithViewController:vc];
-            vcArr = @[vc, backVC];
-        }
-        
-        __weak typeof(self) weakSelf = self;
-        [self.pageViewController setViewControllers:vcArr
-                                          direction:UIPageViewControllerNavigationDirectionForward
-                                           animated:YES
-                                         completion:^(BOOL finished) {
-                                             __strong typeof(self) strongSelf = weakSelf;
-                                             [strongSelf.pageControllManager onNewPageDidAppear:pageData];
-                                         }];
-    });
+    SSPageControllData *pageData = [self.pageControllManager getFirstPageControllData];
+    UIViewController *vc = [self getViewControllerWithPageControllData:pageData];
+    self.scrollCount = 0;
+    NSArray *vcArr = @[vc];
+    if (self.pageViewController.transitionStyle == UIPageViewControllerTransitionStylePageCurl) {
+        SSBackViewController *backVC = [[SSBackViewController alloc] init];
+        [backVC updateWithViewController:vc];
+        vcArr = @[vc, backVC];
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    [self.pageViewController setViewControllers:vcArr
+                                      direction:UIPageViewControllerNavigationDirectionForward
+                                       animated:NO
+                                     completion:^(BOOL finished) {
+                                         __strong typeof(self) strongSelf = weakSelf;
+                                         [strongSelf.pageControllManager onNewPageDidAppear:pageData];
+                                     }];
 }
 
 
@@ -168,6 +168,21 @@
     UIViewController *ret;
     SSPageControllData *pageControllData = [self.pageControllManager getNearPageDataWithIsNext:isNext];
     ret = [self getViewControllerWithPageControllData:pageControllData];
+//    if ([ret isKindOfClass:[SSPageViewController class]]) {
+//        
+//    }
+//    else if (random() % 4 == 0) {
+//        ret = [[SSAdViewController alloc] init];
+//    }
+//    else if (random() % 4 == 1) {
+//        ret = [[SSBackViewController alloc] init];
+//    }
+//    else if (random() % 4 == 2) {
+//        ret = [[SSPageViewController alloc] init];
+//    }
+//    else if (random() % 4 == 3) {
+//        ret = [[SSLoadingViewController alloc] init];
+//    }
     return ret;
 }
 
@@ -182,6 +197,7 @@
     else {
         ret = [self getNearVCWithIsNext:NO curViewController:viewController];
     }
+    NSLog(@"return %@ ", [ret description]);
     return ret;
 }
 
@@ -196,6 +212,7 @@
     else {
         ret = [self getNearVCWithIsNext:YES curViewController:viewController];
     }
+    NSLog(@"return %@ ", [ret description]);
     return ret;
 }
 
@@ -231,6 +248,7 @@
                 break;
         }
     }
+//    NSLog(@"getViewControllerWithPageControllData vc:%@, view: %@", ret, ret.view);
     return ret;
 }
 

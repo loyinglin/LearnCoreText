@@ -25,6 +25,11 @@
     [label sizeToFit];
     label.center = self.view.center;
     [self.view addSubview:label];
+    
+    
+    static int test;
+    ++test;
+    self.view.backgroundColor = test % 3 ? [UIColor orangeColor] : [UIColor greenColor];
 }
 
 /*

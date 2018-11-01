@@ -11,11 +11,11 @@
 #import "SSLayoutPageData.h"
 #import "SSPageView.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 #define PageTop (35)
 #define PageBottom (45)
 #define PageHorizontalMargin (10)
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  分页显示的控制器
