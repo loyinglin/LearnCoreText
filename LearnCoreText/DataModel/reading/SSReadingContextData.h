@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
+#import "SSPageControllData.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *chapterId;
 @property (nonatomic, assign) NSUInteger curPage;
 @property (nonatomic, assign) CGSize pageSize;
+
+@property (nonatomic, strong) SSPageControllData *pageControllData;
 
 @end
 

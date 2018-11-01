@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SSBasePageViewController.h"
 #import "SSLayoutPageData.h"
 #import "SSPageView.h"
 
@@ -19,13 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  分页显示的控制器
  */
-@interface SSPageViewController : UIViewController
-
-@property (nonatomic, strong) SSLayoutPageData *pageData; // 排版数据
-
-- (instancetype)initWithPageData:(SSLayoutPageData *)pageData;
-
-
+@interface SSPageViewController : SSBasePageViewController
 
 @end
 

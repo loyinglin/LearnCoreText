@@ -13,6 +13,8 @@
 #import "SSChapterData.h"
 #import "SSConfigData.h"
 
+#define firstPage (0)
+
 NS_ASSUME_NONNULL_BEGIN
 
 
@@ -27,23 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
-typedef NS_ENUM(NSUInteger, SSPageControllType) {
-    SSPageControllTypeNormal, // 正常渲染
-//    SSPageControllTypeAd,     // 广告页，  暂不翻页逻辑耦合，
-    SSPageControllTypeLoading,  // 空页面，显示loading
-    SSPageControllTypePay,    // 渲染部分文字，同时覆盖购买界面
-};
-
-@interface SSPageControllData : NSObject
-
-@property (nonatomic, assign) SSPageControllType pageControllType;
-@property (nonatomic, strong) SSLayoutPageData *layoutPageData; // 页面渲染的数据
-@property (nonatomic, strong) NSString *loadingChapterId; // 章节的数据
-
-- (instancetype)initWithType:(SSPageControllType)type;
-
-@end
 
 /**
  分页控制器，持有阅读器中所有章节数据
@@ -65,12 +50,13 @@ typedef NS_ENUM(NSUInteger, SSPageControllType) {
  进入新的页面阅读
  更新阅读进度，预加载相邻章节
  */
-- (void)onNewPageDidAppear:(SSLayoutPageData *)layoutPageData;
+- (void)onNewPageDidAppear:(SSPageControllData *)layoutPageData;
+
 
 /**
- 获取当前页面的内容
+ 返回初始化章节第一个页面的数据，有数据则直接显示；否则显示loading；
  */
-- (SSLayoutPageData *)getCurrentPageData;
+- (SSPageControllData *)getFirstPageControllData;
 
 /**
  获取相邻页面的内容

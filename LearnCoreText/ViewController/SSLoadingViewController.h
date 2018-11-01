@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SSBasePageViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SSLoadingViewController : UIViewController
-
-@property (nonatomic, strong) NSString *loadingChapterId;
+@interface SSLoadingViewController : SSBasePageViewController
 
 @end
 

@@ -10,6 +10,8 @@
 		FDA1BFAE21874C2B00BC83C4 /* panda.png in Resources */ = {isa = PBXBuildFile; fileRef = FDA1BFAD21874C2B00BC83C4 /* panda.png */; };
 		FDA76F9D21899D5B0056040E /* SSLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA76F9C21899D5B0056040E /* SSLoadingViewController.m */; };
 		FDA76FA32189ADDB0056040E /* SSAdvertisingData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA76FA22189ADDB0056040E /* SSAdvertisingData.m */; };
+		FDA76FA62189CEFF0056040E /* SSPageControllData.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA76FA52189CEFF0056040E /* SSPageControllData.m */; };
+		FDA76FA92189D7400056040E /* SSBasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA76FA82189D7400056040E /* SSBasePageViewController.m */; };
 		FDD7CCB221801AF800B0DEA2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCB121801AF800B0DEA2 /* AppDelegate.m */; };
 		FDD7CCB521801AF800B0DEA2 /* SSContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CCB421801AF800B0DEA2 /* SSContentViewController.m */; };
 		FDD7CCB821801AF800B0DEA2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDD7CCB621801AF800B0DEA2 /* Main.storyboard */; };
@@ -60,6 +62,10 @@
 		FDA76F9C21899D5B0056040E /* SSLoadingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSLoadingViewController.m; sourceTree = "<group>"; };
 		FDA76FA12189ADDB0056040E /* SSAdvertisingData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSAdvertisingData.h; sourceTree = "<group>"; };
 		FDA76FA22189ADDB0056040E /* SSAdvertisingData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSAdvertisingData.m; sourceTree = "<group>"; };
+		FDA76FA42189CEFF0056040E /* SSPageControllData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSPageControllData.h; sourceTree = "<group>"; };
+		FDA76FA52189CEFF0056040E /* SSPageControllData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSPageControllData.m; sourceTree = "<group>"; };
+		FDA76FA72189D7400056040E /* SSBasePageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSBasePageViewController.h; sourceTree = "<group>"; };
+		FDA76FA82189D7400056040E /* SSBasePageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSBasePageViewController.m; sourceTree = "<group>"; };
 		FDD7CCAD21801AF800B0DEA2 /* LearnCoreText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnCoreText.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD7CCB021801AF800B0DEA2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FDD7CCB121801AF800B0DEA2 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -165,6 +171,8 @@
 				FDD7CCF4218048BF00B0DEA2 /* SSConfigData.m */,
 				FDD7CD042180817700B0DEA2 /* SSReadingContextData.h */,
 				FDD7CD052180817700B0DEA2 /* SSReadingContextData.m */,
+				FDA76FA42189CEFF0056040E /* SSPageControllData.h */,
+				FDA76FA52189CEFF0056040E /* SSPageControllData.m */,
 			);
 			path = reading;
 			sourceTree = "<group>";
@@ -278,6 +286,8 @@
 				FDD7CD0E2182B8ED00B0DEA2 /* SSAdViewController.m */,
 				FDA76F9B21899D5B0056040E /* SSLoadingViewController.h */,
 				FDA76F9C21899D5B0056040E /* SSLoadingViewController.m */,
+				FDA76FA72189D7400056040E /* SSBasePageViewController.h */,
+				FDA76FA82189D7400056040E /* SSBasePageViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -445,6 +455,7 @@
 				FDD7CD0921809F1A00B0DEA2 /* SSLayoutChapterData.m in Sources */,
 				FDD7CD1621831F6A00B0DEA2 /* UIView+LYLayout.m in Sources */,
 				FDD7CCB521801AF800B0DEA2 /* SSContentViewController.m in Sources */,
+				FDA76FA92189D7400056040E /* SSBasePageViewController.m in Sources */,
 				FDD7CD062180817700B0DEA2 /* SSReadingContextData.m in Sources */,
 				FDD7CD0F2182B8ED00B0DEA2 /* SSAdViewController.m in Sources */,
 				FDD7CD0021804EA700B0DEA2 /* SSPageViewController.m in Sources */,
@@ -459,6 +470,7 @@
 				FDA76FA32189ADDB0056040E /* SSAdvertisingData.m in Sources */,
 				FDD7CCB221801AF800B0DEA2 /* AppDelegate.m in Sources */,
 				FDD7CCE621801B3500B0DEA2 /* BackViewController.m in Sources */,
+				FDA76FA62189CEFF0056040E /* SSPageControllData.m in Sources */,
 				FDD7CCF82180491700B0DEA2 /* SSTransformManager.m in Sources */,
 				FDD7CCEB2180444900B0DEA2 /* SSChapterData.m in Sources */,
 			);

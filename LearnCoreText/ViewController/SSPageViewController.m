@@ -15,20 +15,16 @@
 @property (nonatomic, strong) UILabel *indexLabel;
 @property (nonatomic, strong) UILabel *batteryLabel;
 
+@property (nonatomic, strong) SSLayoutPageData *pageData;
+
 @end
 
 @implementation SSPageViewController
 
-- (instancetype)initWithPageData:(SSLayoutPageData *)pageData {
-    self = [super init];
-    if (self) {
-        self.pageData = pageData;
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.pageData = self.pageControllData.layoutPageData;
+    
     // Do any additional setup after loading the view.
     self.pageView = [[SSPageView alloc] initWithFrame:CGRectMake(PageHorizontalMargin, PageTop, CGRectGetWidth(self.view.bounds) - PageHorizontalMargin * 2,
                                                                  CGRectGetHeight(self.view.bounds) - PageTop - PageBottom

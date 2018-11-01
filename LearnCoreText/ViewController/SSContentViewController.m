@@ -76,12 +76,12 @@
     }
     [self.pageViewController setViewControllers:vcArr
                                       direction:isNext ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse
-                                       animated:YES
+                                       animated:NO // 这里和微信读书对齐，同时也防止在连续点击的时候，出现异常
                                      completion:^(BOOL finished) {
                                          NSLog(@"manualChangePageWithIsNext setViewControllers");
                                          __strong typeof(self) strongSelf = weakSelf;
-                                         if ([vc isKindOfClass:[SSPageViewController class]]) {
-                                             [strongSelf.pageControllManager onNewPageDidAppear:[(SSPageViewController *)vc pageData]];
+                                         if ([vc isKindOfClass:[SSBasePageViewController class]]) {
+                                             [strongSelf.pageControllManager onNewPageDidAppear:[(SSBasePageViewController *)vc pageControllData]];
                                              ++strongSelf.scrollCount; // 统计曝光
                                          }
                                      }];
@@ -108,12 +108,18 @@
 
 
 - (void)customInitFirstPage {
-    SSLayoutPageData *pageData = [self.pageControllManager getCurrentPageData];
-    SSPageViewController *pageVC = [[SSPageViewController alloc] initWithPageData:pageData];
+    SSPageControllData *pageData = [self.pageControllManager getFirstPageControllData];
+    UIViewController *vc = [self getViewControllerWithPageControllData:pageData];
     self.scrollCount = 0;
+    NSArray *vcArr = @[vc];
+    if (self.pageViewController.transitionStyle == UIPageViewControllerTransitionStylePageCurl) {
+        BackViewController *backVC = [[BackViewController alloc] init];
+        [backVC updateWithViewController:vc];
+        vcArr = @[vc, backVC];
+    }
     
     __weak typeof(self) weakSelf = self;
-    [self.pageViewController setViewControllers:@[pageVC]
+    [self.pageViewController setViewControllers:vcArr
                                       direction:UIPageViewControllerNavigationDirectionForward
                                        animated:YES
                                      completion:^(BOOL finished) {
@@ -150,21 +156,8 @@
 
 - (UIViewController *)getNearVCWithIsNext:(BOOL)isNext curViewController:(UIViewController *)curVC {
     UIViewController *ret;
-    if (![curVC isKindOfClass:[SSAdViewController class]] && self.scrollCount % 3 == 4) {
-        ret = [[SSAdViewController alloc] init];
-    }
-    else {
-        SSPageControllData *pageControllData = [self.pageControllManager getNearPageDataWithIsNext:isNext];
-        if (pageControllData.pageControllType == SSPageControllTypeNormal) {
-            SSPageViewController *pageVC = [[SSPageViewController alloc] initWithPageData:pageControllData.layoutPageData];
-            ret = pageVC;
-        }
-        else if (pageControllData.pageControllType == SSPageControllTypeLoading) {
-            SSLoadingViewController *loadingVC = [[SSLoadingViewController alloc] init];
-            loadingVC.loadingChapterId = pageControllData.loadingChapterId;
-            ret = loadingVC;
-        }
-    }
+    SSPageControllData *pageControllData = [self.pageControllManager getNearPageDataWithIsNext:isNext];
+    ret = [self getViewControllerWithPageControllData:pageControllData];
     return ret;
 }
 
@@ -199,9 +192,34 @@
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {
     if (completed && [self.pageViewController.viewControllers[0] isKindOfClass:[SSPageViewController class]]) {
         SSPageViewController *pageViewController = (SSPageViewController *)self.pageViewController.viewControllers[0];
-        [self.pageControllManager onNewPageDidAppear:pageViewController.pageData];
+        [self.pageControllManager onNewPageDidAppear:pageViewController.pageControllData];
         ++self.scrollCount; // 统计曝光
     }
+}
+
+- (UIViewController *)getViewControllerWithPageControllData:(SSPageControllData *)pageControllData {
+    UIViewController *ret;
+    switch (pageControllData.pageControllType) {
+        case SSPageControllTypeNormal:
+        {
+            ret = [[SSPageViewController alloc] initWithSSPageControllData:pageControllData];
+            break;
+        }
+        case SSPageControllTypeLoading:
+        {
+            ret = [[SSLoadingViewController alloc] initWithSSPageControllData:pageControllData];
+            break;
+        }
+        case SSPageControllTypeAd:
+        {
+            ret = [[SSAdViewController alloc] initWithSSPageControllData:pageControllData];
+            break;
+        }
+            
+        default:
+            break;
+    }
+    return ret;
 }
 
 @end
