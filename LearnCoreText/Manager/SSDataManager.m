@@ -18,10 +18,10 @@
 - (void)asyncGetRemoteChatperDataWithBookId:(NSString *)bookId chapterId:(NSString *)chapterId callback:(SSDataCallback)callback {
     SSChapterData *chapterData = [self getFakeChapterDataWithId:chapterId];
     if (callback) {
-        float delayTime = 1.0;
-        if ([chapterId intValue] != 1) { //
-            delayTime = 10;
-        }
+        float delayTime = 0.01;
+//        if ([chapterId intValue] != 1) { //
+//            delayTime = 10;
+//        }
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             callback(chapterData);

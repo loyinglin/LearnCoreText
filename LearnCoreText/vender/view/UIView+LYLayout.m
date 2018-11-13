@@ -2,8 +2,8 @@
 //  UIView+LYLayout.m
 //  LYFrameworkDemo
 //
-//  Created by loyinglin on 16/10/11.
-//  Copyright © 2016年 loyinglin. All rights reserved.
+//  Created by loyinglin on 2018/10/25.
+//  Copyright © 2018 loyinglin. All rights reserved.
 //
 
 #import "UIView+LYLayout.h"
