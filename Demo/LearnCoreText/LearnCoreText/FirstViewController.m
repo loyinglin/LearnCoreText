@@ -14,6 +14,9 @@
 
 @property (nonatomic, strong) UIButton *lineFrameBtn;
 @property (nonatomic, strong) UIButton *columnFrameBtn;
+@property (nonatomic, strong) UIButton *nonrectangleFrameBtn;
+@property (nonatomic, strong) UIButton *kernBtn; // test char space
+@property (nonatomic, strong) UIButton *attachmentBtn;
 
 @property (nonatomic, strong) UIScrollView *containerScrollView;
 
@@ -75,6 +78,44 @@
         self.columnFrameBtn = btn; // 2
     }
     
+    
+    {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, startY, 200, 20)];
+        [btn setTitle:@"不规则布局" forState:UIControlStateNormal]; // 1
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.containerScrollView addSubview:btn];
+        [btn addTarget:self action:@selector(onBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        startY += CGRectGetHeight(btn.bounds) + margin;
+        
+        self.nonrectangleFrameBtn = btn; // 2
+    }
+    
+    {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, startY, 200, 20)];
+        [btn setTitle:@"字间距" forState:UIControlStateNormal]; // 1
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.containerScrollView addSubview:btn];
+        [btn addTarget:self action:@selector(onBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        startY += CGRectGetHeight(btn.bounds) + margin;
+        
+        self.kernBtn = btn; // 2
+    }
+    
+    
+    {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, startY, 200, 20)];
+        [btn setTitle:@"TextKit图文混排" forState:UIControlStateNormal]; // 1
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.containerScrollView addSubview:btn];
+        [btn addTarget:self action:@selector(onBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        startY += CGRectGetHeight(btn.bounds) + margin;
+        
+        self.attachmentBtn = btn; // 2
+    }
+    
     self.containerScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), startY);
 }
 
@@ -92,6 +133,15 @@
     }
     else if (btn == self.columnFrameBtn) {
         self.topDrawView.image = [self drawColumnFrameImage];
+    }
+    else if (btn == self.nonrectangleFrameBtn) {
+        self.topDrawView.image = [self drawNonrectangularImage];
+    }
+    else if (btn == self.kernBtn) {
+        self.topDrawView.image = [self drawKernImage];
+    }
+    else if (btn == self.attachmentBtn) {
+        self.topDrawView.image = [self drawAttachmentImage];
     }
 }
 
@@ -164,8 +214,7 @@
 - (UIImage *)drawColumnFrameImage {
     // Initialize a graphics context in iOS.
     UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, self.view.contentScaleFactor);
-    
-    
+   
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextScaleCTM(context, 1.0, -1.0);
     CGContextTranslateCTM(context, 0, -self.topDrawView.height);
@@ -261,4 +310,229 @@
     return array;
 }
 
+
+// Create a path in the shape of a donut.
+static void AddSquashedDonutPath(CGMutablePathRef path,
+                                 const CGAffineTransform *m, CGRect rect)
+{
+    CGFloat width = CGRectGetWidth(rect);
+    CGFloat height = CGRectGetHeight(rect);
+    
+    CGFloat radiusH = width / 3.0;
+    CGFloat radiusV = height / 3.0;
+    
+    CGPathMoveToPoint( path, m, rect.origin.x, rect.origin.y + height - radiusV);
+    CGPathAddQuadCurveToPoint( path, m, rect.origin.x, rect.origin.y + height,
+                              rect.origin.x + radiusH, rect.origin.y + height);
+    CGPathAddLineToPoint( path, m, rect.origin.x + width - radiusH,
+                         rect.origin.y + height);
+    CGPathAddQuadCurveToPoint( path, m, rect.origin.x + width,
+                              rect.origin.y + height,
+                              rect.origin.x + width,
+                              rect.origin.y + height - radiusV);
+    CGPathAddLineToPoint( path, m, rect.origin.x + width,
+                         rect.origin.y + radiusV);
+    CGPathAddQuadCurveToPoint( path, m, rect.origin.x + width, rect.origin.y,
+                              rect.origin.x + width - radiusH, rect.origin.y);
+    CGPathAddLineToPoint( path, m, rect.origin.x + radiusH, rect.origin.y);
+    CGPathAddQuadCurveToPoint( path, m, rect.origin.x, rect.origin.y,
+                              rect.origin.x, rect.origin.y + radiusV);
+    CGPathCloseSubpath( path);
+    
+    CGPathAddEllipseInRect( path, m,
+                           CGRectMake( rect.origin.x + width / 2.0 - width / 5.0,
+                                      rect.origin.y + height / 2.0 - height / 5.0,
+                                      width / 5.0 * 2.0, height / 5.0 * 2.0));
+}
+
+// Generate the path outside of the drawRect call so the path is calculated only once.
+- (NSArray *)paths
+{
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGRect bounds = self.topDrawView.bounds;
+    bounds = CGRectInset(bounds, 10.0, 10.0);
+    AddSquashedDonutPath(path, NULL, bounds);
+    
+    NSMutableArray *result =
+    [NSMutableArray arrayWithObject:CFBridgingRelease(path)];
+    return result;
+}
+
+- (UIImage *)drawNonrectangularImage {
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, self.view.contentScaleFactor);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0, -self.topDrawView.height);
+    
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithAttributedString:[self getColumnAttrStrWithStr:@"123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"]];
+    CFMutableAttributedStringRef attrString = (__bridge CFMutableAttributedStringRef)attrStr;
+    
+    // Create a color that will be added as an attribute to the attrString.
+    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+    CGFloat components[] = { 1.0, 0.0, 0.0, 0.8 };
+    CGColorRef red = CGColorCreate(rgbColorSpace, components);
+    CGColorSpaceRelease(rgbColorSpace);
+    
+    // Set the color of the first 13 chars to red.
+    CFAttributedStringSetAttribute(attrString, CFRangeMake(0, 13),
+                                   kCTForegroundColorAttributeName, red);
+    
+    // Create the framesetter with the attributed string.
+    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString(attrString);
+    
+    // Create the array of paths in which to draw the text.
+    NSArray *paths = [self paths];
+    
+    CFIndex startIndex = 0;
+    
+    // In OS X, use NSColor instead of UIColor.
+#define GREEN_COLOR [UIColor greenColor]
+#define YELLOW_COLOR [UIColor yellowColor]
+#define BLACK_COLOR [UIColor blackColor]
+    
+    // For each path in the array of paths...
+    for (id object in paths) {
+        CGPathRef path = (__bridge CGPathRef)object;
+        
+        // Set the background of the path to yellow.
+        CGContextSetFillColorWithColor(context, [YELLOW_COLOR CGColor]);
+        
+        CGContextAddPath(context, path);
+        CGContextFillPath(context);
+        
+        CGContextDrawPath(context, kCGPathStroke);
+        
+        // Create a frame for this path and draw the text.
+        CTFrameRef frame = CTFramesetterCreateFrame(framesetter,
+                                                    CFRangeMake(startIndex, 0), path, NULL);
+        CTFrameDraw(frame, context);
+        
+        // Start the next frame at the first character not visible in this frame.
+        CFRange frameRange = CTFrameGetVisibleStringRange(frame);
+        startIndex += frameRange.length;
+        CFRelease(frame);
+    }
+    
+//    CFRelease(attrString); 不是CF对象创建的，不需要release，否则会crash
+    CFRelease(framesetter);
+    
+    
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+}
+
+
+- (UIImage *)drawKernImage {
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, self.view.contentScaleFactor);
+    
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0, -self.topDrawView.height);
+    
+    CGPoint textPosition = CGPointMake(10, 10);
+    double width = self.topDrawView.width - textPosition.x;
+    NSString *contentStr = @"一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六";
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    dict[NSFontAttributeName] = [UIFont systemFontOfSize:14];
+    dict[NSForegroundColorAttributeName] = [UIColor redColor];
+    dict[NSKernAttributeName] = @(1);
+    dict[NSBackgroundColorAttributeName] = [UIColor lightGrayColor];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.lineSpacing = 1.0;
+    paragraphStyle.alignment = NSTextAlignmentJustified;
+    dict[NSParagraphStyleAttributeName] = paragraphStyle;
+    
+    NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:contentStr
+                                                                     attributes:dict];
+    [ret addAttribute:NSKernAttributeName value:@(10) range:NSMakeRange(3, 2)]; // 第4个字符开始，往右的两个字符的字间距，即是4、5、6三个字符的字间距
+    
+    
+    CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)ret;
+    // Initialize those variables.
+    
+    // Create a typesetter using the attributed string.
+    CTTypesetterRef typesetter = CTTypesetterCreateWithAttributedString(attrString);
+    
+    // Find a break for line from the beginning of the string to the given width.
+    CFIndex start = 0;
+    CFIndex count = CTTypesetterSuggestLineBreak(typesetter, start, width);
+    
+    // Use the returned character count (to the break) to create the line.
+    CTLineRef line = CTTypesetterCreateLine(typesetter, CFRangeMake(start, count));
+    
+    // Get the offset needed to center the line.
+    float flush = 0.5; // centered
+    double penOffset = CTLineGetPenOffsetForFlush(line, flush, width);
+    
+    // Move the given text drawing position by the calculated offset and draw the line.
+    CGContextSetTextPosition(context, textPosition.x + penOffset, textPosition.y);
+    CTLineDraw(line, context);
+    
+    // Move the index beyond the line break.
+    start += count;
+    
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+}
+
+
+- (UIImage *)drawAttachmentImage {
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, self.view.contentScaleFactor);
+    
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+//    CGContextScaleCTM(context, 1.0, -1.0);
+//    CGContextTranslateCTM(context, 0, -self.topDrawView.height);
+    
+    CGPoint textPosition = CGPointMake(10, 10);
+    double width = self.topDrawView.width - textPosition.x;
+    NSMutableAttributedString *mutableAttrStr = [[NSMutableAttributedString alloc] initWithAttributedString:[self getAttributeStrWithStr:@"一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十"]];
+    // Initialize those variables.
+    
+    NSTextAttachment *textAttachment = [[NSTextAttachment alloc ] initWithData:nil ofType:nil];
+    UIImage *pandaImage = [ UIImage imageNamed:@"abc"];  //my emoticon image named a.jpg
+    
+    textAttachment.image = pandaImage;
+    NSAttributedString * textAttachmentString = [ NSAttributedString attributedStringWithAttachment:textAttachment];
+    
+    [mutableAttrStr insertAttributedString:textAttachmentString atIndex:5];
+    
+    CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)mutableAttrStr;
+    
+    // Create a typesetter using the attributed string.
+    CTTypesetterRef typesetter = CTTypesetterCreateWithAttributedString(attrString);
+    
+    // Find a break for line from the beginning of the string to the given width.
+    CFIndex start = 0;
+    CFIndex count = CTTypesetterSuggestLineBreak(typesetter, start, width);
+    
+    // Use the returned character count (to the break) to create the line.
+    CTLineRef line = CTTypesetterCreateLine(typesetter, CFRangeMake(start, count));
+    
+    // Get the offset needed to center the line.
+    float flush = 0.5; // centered
+    double penOffset = CTLineGetPenOffsetForFlush(line, flush, width);
+    
+    // Move the given text drawing position by the calculated offset and draw the line.
+    CGContextSetTextPosition(context, textPosition.x + penOffset, textPosition.y);
+//    CTLineDraw(line, context);
+    
+    // Move the index beyond the line break.
+    start += count;
+    
+    [mutableAttrStr drawInRect:self.topDrawView.bounds];
+    
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+}
 @end
