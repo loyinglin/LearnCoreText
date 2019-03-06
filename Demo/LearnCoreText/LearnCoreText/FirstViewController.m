@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UIButton *nonrectangleFrameBtn;
 @property (nonatomic, strong) UIButton *kernBtn; // test char space
 @property (nonatomic, strong) UIButton *attachmentBtn;
+@property (nonatomic, strong) UIButton *rangeOfFontBtn;
 
 @property (nonatomic, strong) UIScrollView *containerScrollView;
 
@@ -116,6 +117,18 @@
         self.attachmentBtn = btn; // 2
     }
     
+    {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, startY, 200, 20)];
+        [btn setTitle:@"字体种类测试" forState:UIControlStateNormal]; // 1
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.containerScrollView addSubview:btn];
+        [btn addTarget:self action:@selector(onBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        startY += CGRectGetHeight(btn.bounds) + margin;
+        
+        self.rangeOfFontBtn = btn; // 2
+    }
+    
     self.containerScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), startY);
 }
 
@@ -143,6 +156,9 @@
     else if (btn == self.attachmentBtn) {
         self.topDrawView.image = [self drawAttachmentImage];
     }
+    else if (btn == self.rangeOfFontBtn) {
+        self.topDrawView.image = [self drawRangeOfFontImage];
+    }
 }
 
 #pragma mark - delegate
@@ -150,7 +166,7 @@
 #pragma mark - private
 
 - (UIImage *)drawLineImage {
-    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, self.view.contentScaleFactor);
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
     
     
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -213,7 +229,7 @@
 
 - (UIImage *)drawColumnFrameImage {
     // Initialize a graphics context in iOS.
-    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, self.view.contentScaleFactor);
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
    
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextScaleCTM(context, 1.0, -1.0);
@@ -359,7 +375,7 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
 }
 
 - (UIImage *)drawNonrectangularImage {
-    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, self.view.contentScaleFactor);
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextScaleCTM(context, 1.0, -1.0);
@@ -426,7 +442,7 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
 
 
 - (UIImage *)drawKernImage {
-    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, self.view.contentScaleFactor);
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
     
     
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -485,7 +501,7 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
 
 
 - (UIImage *)drawAttachmentImage {
-    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, self.view.contentScaleFactor);
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
     
     
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -535,4 +551,93 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
     
     return scaledImage;
 }
+
+
+
+- (UIImage *)drawRangeOfFontImage {
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
+    
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(context);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0, -self.topDrawView.height);
+    
+    CGPoint textPosition = CGPointMake(10, 10);
+    double width = self.topDrawView.width - textPosition.x;
+    
+    NSMutableAttributedString *mutableAttrStr = [[NSMutableAttributedString alloc] init];
+    {
+        NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:@"字体测试1"
+                                                                      attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13]}];
+        [mutableAttrStr appendAttributedString:attrStr];
+    }
+    {
+        NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:@"字体测试2"
+                                                                      attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]}];
+        [mutableAttrStr appendAttributedString:attrStr];
+    }
+    {
+        NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:@"字体测试3"
+                                                                      attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17]}];
+        [mutableAttrStr appendAttributedString:attrStr];
+    }
+    {
+        NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:@"字体测试4"
+                                                                      attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:19]}];
+        [mutableAttrStr appendAttributedString:attrStr];
+    }
+    
+    CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)mutableAttrStr;
+    // Initialize those variables.
+    
+    // Create a typesetter using the attributed string.
+    CTTypesetterRef typesetter = CTTypesetterCreateWithAttributedString(attrString);
+    
+    // Find a break for line from the beginning of the string to the given width.
+    CFIndex start = 0;
+    CFIndex count = CTTypesetterSuggestLineBreak(typesetter, start, width);
+    
+    // Use the returned character count (to the break) to create the line.
+    CTLineRef line = CTTypesetterCreateLine(typesetter, CFRangeMake(start, count));
+    
+    // Get the offset needed to center the line.
+    float flush = 0.5; // centered
+    double penOffset = CTLineGetPenOffsetForFlush(line, flush, width);
+    
+    // Move the given text drawing position by the calculated offset and draw the line.
+    CGContextSetTextPosition(context, textPosition.x + penOffset, textPosition.y);
+    CTLineDraw(line, context);
+    
+    // Move the index beyond the line break.
+    start += count;
+    
+    CGContextRestoreGState(context); // 这一段很重要，详见https://www.jianshu.com/p/5456a4f21d35
+    
+    NSRange limitRange = NSMakeRange(0, [mutableAttrStr length]);
+    NSRange effectiveRange;
+    NSMutableArray *attrArray = [NSMutableArray array];
+    
+    while (limitRange.length > 0) {
+        id attributeValue = [mutableAttrStr attribute:NSFontAttributeName
+                                              atIndex:limitRange.location
+                                longestEffectiveRange:&effectiveRange
+                                              inRange:limitRange];
+        [attrArray addObject:attributeValue];
+        
+        limitRange = NSMakeRange(NSMaxRange(effectiveRange),
+                                 NSMaxRange(limitRange) - NSMaxRange(effectiveRange));
+    }
+    
+    if (attrArray) {
+        NSString *str = [NSString stringWithFormat:@"一共有%ld种字体", attrArray.count];
+        [str drawAtPoint:CGPointMake(100, 100) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20]}];
+    }
+    
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+}
+
 @end
