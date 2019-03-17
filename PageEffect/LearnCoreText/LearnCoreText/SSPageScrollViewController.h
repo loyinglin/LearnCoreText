@@ -11,9 +11,14 @@
 @class SSPageScrollViewController;
 @protocol SSPageScrollViewControllerDelegate <NSObject>
 
-- (UIViewController *)pageScrollViewControllGetLastVC:(SSPageScrollViewController *)scrollVC;
+- (UIViewController *)pageScrollViewControllerGetLastVC:(SSPageScrollViewController *)scrollVC;
 
-- (UIViewController *)pageScrollViewControllGetNextVC:(SSPageScrollViewController *)scrollVC;
+- (UIViewController *)pageScrollViewControllerGetNextVC:(SSPageScrollViewController *)scrollVC;
+
+- (void)pageScrollViewController:(SSPageScrollViewController *)scrollVC previousViewController:(UIViewController *)previousViewController transitionCompleted:(BOOL)completed;
+
+- (void)pageScrollViewController:(SSPageScrollViewController *)scrollVC willTransitionToViewControllers:(UIViewController *)pendingViewController;
+
 
 @end
 

@@ -50,12 +50,20 @@
     [super viewWillAppear:animated];
 }
 
-- (UIViewController *)pageScrollViewControllGetLastVC:(SSPageScrollViewController *)scrollVC {
+- (UIViewController *)pageScrollViewControllerGetLastVC:(SSPageScrollViewController *)scrollVC {
     return [self getRandomVC];
 }
 
-- (UIViewController *)pageScrollViewControllGetNextVC:(SSPageScrollViewController *)scrollVC {
+- (UIViewController *)pageScrollViewControllerGetNextVC:(SSPageScrollViewController *)scrollVC {
     return [self getRandomVC];
+}
+
+- (void)pageScrollViewController:(SSPageScrollViewController *)scrollVC willTransitionToViewControllers:(UIViewController *)pendingViewController {
+    
+}
+
+- (void)pageScrollViewController:(SSPageScrollViewController *)scrollVC previousViewController:(UIViewController *)previousViewController transitionCompleted:(BOOL)completed {
+    NSLog(@"info, transitionCompleted:%d", completed);
 }
 
 - (UIViewController *)getRandomVC {

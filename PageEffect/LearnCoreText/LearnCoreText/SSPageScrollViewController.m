@@ -113,7 +113,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
             }
             if (self.delegate) {
                 if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
-                    UIViewController *lastVC = [self.delegate pageScrollViewControllGetLastVC:self];
+                    UIViewController *lastVC = [self.delegate pageScrollViewControllerGetLastVC:self];
                     if (!lastVC) {
                         self.bMoveLastEnable = NO;
                         self.currentStatus = SSReaderPageEffectViewStatusDefault;
@@ -125,7 +125,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                     self.moveVC = lastVC;
                 }
                 else if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage) {
-                    UIViewController *nextVC = [self.delegate pageScrollViewControllGetNextVC:self];
+                    UIViewController *nextVC = [self.delegate pageScrollViewControllerGetNextVC:self];
                     if (!nextVC) {
                         self.bMoveNextEnable = NO;
                         self.currentStatus = SSReaderPageEffectViewStatusDefault;
@@ -142,6 +142,13 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                     self.moveVC.view.layer.shadowOffset = CGSizeMake(-3, -3);
                     self.moveVC.view.layer.shadowOpacity = 1;
                     self.moveVC.view.layer.shadowRadius = 10;
+                }
+                
+                if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
+                    [self.delegate pageScrollViewController:self willTransitionToViewControllers:self.moveVC];
+                }
+                else if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage) {
+                    [self.delegate pageScrollViewController:self willTransitionToViewControllers:self.showVC];
                 }
             }
             // todo delegate get view
@@ -167,6 +174,9 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                 }
             } completion:^(BOOL finished) {
                 if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
+                    if (self.delegate) {
+                        [self.delegate pageScrollViewController:self previousViewController:self.moveVC transitionCompleted:rate == 1];
+                    }
                     if (rate == 1) {
                         [self.showVC removeFromParentViewController];
                         [self.showVC.view removeFromSuperview];
@@ -180,6 +190,9 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                     self.moveVC = nil;
                 }
                 else if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage) {
+                    if (self.delegate) {
+                        [self.delegate pageScrollViewController:self previousViewController:self.showVC transitionCompleted:rate == 1];
+                    }
                     if (rate == 1) {
                         [self.moveVC removeFromParentViewController];
                         [self.moveVC.view removeFromSuperview];
