@@ -9,9 +9,9 @@
 #import "FirstViewController.h"
 #import "UIView+LYLayout.h"
 #import <CoreText/CoreText.h>
-#import "SSPageScrollViewController.h"
+#import "SSSlideViewController.h"
 
-@interface FirstViewController () <SSPageScrollViewControllerDelegate>
+@interface FirstViewController () <SSSlideViewControllerDelegate>
 
 @property (nonatomic, strong) UIButton *lineFrameBtn;
 @property (nonatomic, strong) UIButton *columnFrameBtn;
@@ -34,7 +34,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    SSPageScrollViewController *vc = [[SSPageScrollViewController alloc] init];
+    SSSlideViewController *vc = [[SSSlideViewController alloc] init];
     vc.delegate = self;
     [self addChildViewController:vc];
     [vc setInitVC:[self getRandomVC]];
@@ -50,19 +50,19 @@
     [super viewWillAppear:animated];
 }
 
-- (UIViewController *)pageScrollViewControllerGetLastVC:(SSPageScrollViewController *)scrollVC {
+- (UIViewController *)slideViewControllerGetLastVC:(SSSlideViewController *)scrollVC {
     return [self getRandomVC];
 }
 
-- (UIViewController *)pageScrollViewControllerGetNextVC:(SSPageScrollViewController *)scrollVC {
+- (UIViewController *)slideViewControllerGetNextVC:(SSSlideViewController *)scrollVC {
     return [self getRandomVC];
 }
 
-- (void)pageScrollViewController:(SSPageScrollViewController *)scrollVC willTransitionToViewControllers:(UIViewController *)pendingViewController {
-    
+- (void)slideViewController:(SSSlideViewController *)scrollVC willTransitionToViewControllers:(UIViewController *)pendingViewController {
+    NSLog(@"info, willTransitionToViewControllers");
 }
 
-- (void)pageScrollViewController:(SSPageScrollViewController *)scrollVC previousViewController:(UIViewController *)previousViewController transitionCompleted:(BOOL)completed {
+- (void)slideViewController:(SSSlideViewController *)scrollVC previousViewController:(UIViewController *)previousViewController transitionCompleted:(BOOL)completed {
     NSLog(@"info, transitionCompleted:%d", completed);
 }
 

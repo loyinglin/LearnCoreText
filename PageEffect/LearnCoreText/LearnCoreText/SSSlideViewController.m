@@ -6,7 +6,7 @@
 //  Copyright © 2019 Loying. All rights reserved.
 //
 
-#import "SSPageScrollViewController.h"
+#import "SSSlideViewController.h"
 #import "UIView+LYLayout.h"
 
 typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
     SSReaderPageEffectViewStatusMovingToLastPage, // 移动新的界面，则是返回上一页
 };
 
-@interface SSPageScrollViewController () <UIGestureRecognizerDelegate>
+@interface SSSlideViewController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, assign) SSReaderPageEffectViewStatus currentStatus;
 @property (nonatomic, strong) UIViewController *moveVC;
@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
 
 @end
 
-@implementation SSPageScrollViewController
+@implementation SSSlideViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -113,7 +113,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
             }
             if (self.delegate) {
                 if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
-                    UIViewController *lastVC = [self.delegate pageScrollViewControllerGetLastVC:self];
+                    UIViewController *lastVC = [self.delegate slideViewControllerGetLastVC:self];
                     if (!lastVC) {
                         self.bMoveLastEnable = NO;
                         self.currentStatus = SSReaderPageEffectViewStatusDefault;
@@ -125,7 +125,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                     self.moveVC = lastVC;
                 }
                 else if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage) {
-                    UIViewController *nextVC = [self.delegate pageScrollViewControllerGetNextVC:self];
+                    UIViewController *nextVC = [self.delegate slideViewControllerGetNextVC:self];
                     if (!nextVC) {
                         self.bMoveNextEnable = NO;
                         self.currentStatus = SSReaderPageEffectViewStatusDefault;
@@ -145,10 +145,10 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                 }
                 
                 if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
-                    [self.delegate pageScrollViewController:self willTransitionToViewControllers:self.moveVC];
+                    [self.delegate slideViewController:self willTransitionToViewControllers:self.moveVC];
                 }
                 else if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage) {
-                    [self.delegate pageScrollViewController:self willTransitionToViewControllers:self.showVC];
+                    [self.delegate slideViewController:self willTransitionToViewControllers:self.showVC];
                 }
             }
             // todo delegate get view
@@ -175,7 +175,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
             } completion:^(BOOL finished) {
                 if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
                     if (self.delegate) {
-                        [self.delegate pageScrollViewController:self previousViewController:self.moveVC transitionCompleted:rate == 1];
+                        [self.delegate slideViewController:self previousViewController:self.moveVC transitionCompleted:rate == 1];
                     }
                     if (rate == 1) {
                         [self.showVC removeFromParentViewController];
@@ -191,7 +191,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                 }
                 else if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage) {
                     if (self.delegate) {
-                        [self.delegate pageScrollViewController:self previousViewController:self.showVC transitionCompleted:rate == 1];
+                        [self.delegate slideViewController:self previousViewController:self.showVC transitionCompleted:rate == 1];
                     }
                     if (rate == 1) {
                         [self.moveVC removeFromParentViewController];

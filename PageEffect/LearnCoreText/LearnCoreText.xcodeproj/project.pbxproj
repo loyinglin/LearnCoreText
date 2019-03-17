@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FDB85929223B9B2000736101 /* SSPageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB85928223B9B2000736101 /* SSPageScrollViewController.m */; };
+		FDB85929223B9B2000736101 /* SSSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB85928223B9B2000736101 /* SSSlideViewController.m */; };
 		FDD1C61F22268BEE00B1FBA1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD1C61E22268BEE00B1FBA1 /* AppDelegate.m */; };
 		FDD1C62222268BEE00B1FBA1 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD1C62122268BEE00B1FBA1 /* FirstViewController.m */; };
 		FDD1C62522268BEE00B1FBA1 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD1C62422268BEE00B1FBA1 /* SecondViewController.m */; };
@@ -19,8 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FDB85927223B9B2000736101 /* SSPageScrollViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSPageScrollViewController.h; sourceTree = "<group>"; };
-		FDB85928223B9B2000736101 /* SSPageScrollViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSPageScrollViewController.m; sourceTree = "<group>"; };
+		FDB85927223B9B2000736101 /* SSSlideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSSlideViewController.h; sourceTree = "<group>"; };
+		FDB85928223B9B2000736101 /* SSSlideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSSlideViewController.m; sourceTree = "<group>"; };
 		FDD1C61A22268BEE00B1FBA1 /* LearnCoreText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnCoreText.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD1C61D22268BEE00B1FBA1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FDD1C61E22268BEE00B1FBA1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -75,8 +75,8 @@
 				FDD1C62122268BEE00B1FBA1 /* FirstViewController.m */,
 				FDD1C62322268BEE00B1FBA1 /* SecondViewController.h */,
 				FDD1C62422268BEE00B1FBA1 /* SecondViewController.m */,
-				FDB85927223B9B2000736101 /* SSPageScrollViewController.h */,
-				FDB85928223B9B2000736101 /* SSPageScrollViewController.m */,
+				FDB85927223B9B2000736101 /* SSSlideViewController.h */,
+				FDB85928223B9B2000736101 /* SSSlideViewController.m */,
 				FDD1C62622268BEE00B1FBA1 /* Main.storyboard */,
 				FDD1C62922268BF000B1FBA1 /* Assets.xcassets */,
 				FDD1C62B22268BF000B1FBA1 /* LaunchScreen.storyboard */,
@@ -160,7 +160,7 @@
 				FDD1C61F22268BEE00B1FBA1 /* AppDelegate.m in Sources */,
 				FDD1C63822268EA500B1FBA1 /* UIView+LYLayout.m in Sources */,
 				FDD1C63022268BF000B1FBA1 /* main.m in Sources */,
-				FDB85929223B9B2000736101 /* SSPageScrollViewController.m in Sources */,
+				FDB85929223B9B2000736101 /* SSSlideViewController.m in Sources */,
 				FDD1C62222268BEE00B1FBA1 /* FirstViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
