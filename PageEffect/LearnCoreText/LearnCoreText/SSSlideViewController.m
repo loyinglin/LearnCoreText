@@ -8,6 +8,7 @@
 
 #import "SSSlideViewController.h"
 #import "UIView+LYLayout.h"
+#import "UIGestureRecognizer+SSUtil.h"
 
 typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
     SSReaderPageEffectViewStatusDefault, // 没有页面移动
@@ -51,6 +52,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
 #pragma mark - getter&setter
 
 - (void)setInitVC:(UIViewController *)vc {
+    [self resetStatus];
     if (vc) {
         [self addChildViewController:vc];
         [self.view addSubview:vc.view];
@@ -61,13 +63,25 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
     }
 }
 
+- (void)resetStatus {
+    if (self.showVC) {
+        [self.showVC removeFromParentViewController];
+        [self.showVC.view removeFromSuperview];
+    }
+    if (self.moveVC) {
+        [self.moveVC removeFromParentViewController];
+        [self.moveVC.view removeFromSuperview];
+    }
+    self.currentStatus = SSReaderPageEffectViewStatusDefault;
+    self.bMoveLastEnable = self.bMoveNextEnable = YES;
+}
 #pragma mark - action
 
 #pragma mark - delegate
 
 #pragma mark - private
 
-#define kCompleteRate (0.0)
+#define kCompleteRate (0.33)
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     if (gestureRecognizer == self.panRecognizer) {
@@ -115,33 +129,31 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                 if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
                     UIViewController *lastVC = [self.delegate slideViewControllerGetLastVC:self];
                     if (!lastVC) {
-                        self.bMoveLastEnable = NO;
+                        [rec cancelCurrentGestureReccongizing];
                         self.currentStatus = SSReaderPageEffectViewStatusDefault;
                         NSLog(@"info, reach last end");
-                        return ;
                     }
-                    [self addChildViewController:lastVC];
-                    [self.view insertSubview:lastVC.view aboveSubview:self.showVC.view];
-                    self.moveVC = lastVC;
+                    else {
+                        [self addChildViewController:lastVC];
+                        [self.view insertSubview:lastVC.view aboveSubview:self.showVC.view];
+                        self.moveVC = lastVC;
+                        [self addMaskToVC:self.moveVC];
+                    }
                 }
                 else if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage) {
                     UIViewController *nextVC = [self.delegate slideViewControllerGetNextVC:self];
                     if (!nextVC) {
-                        self.bMoveNextEnable = NO;
+                        [rec cancelCurrentGestureReccongizing];
                         self.currentStatus = SSReaderPageEffectViewStatusDefault;
                         NSLog(@"info, reach next end");
-                        return ;
                     }
-                    [self addChildViewController:nextVC];
-                    [self.view insertSubview:nextVC.view belowSubview:self.showVC.view];
-                    self.moveVC = self.showVC;
-                    self.showVC = nextVC;
-                }
-                if (self.moveVC) {
-                    self.moveVC.view.layer.shadowColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.04].CGColor;
-                    self.moveVC.view.layer.shadowOffset = CGSizeMake(-3, -3);
-                    self.moveVC.view.layer.shadowOpacity = 1;
-                    self.moveVC.view.layer.shadowRadius = 10;
+                    else {
+                        [self addChildViewController:nextVC];
+                        [self.view insertSubview:nextVC.view belowSubview:self.showVC.view];
+                        self.moveVC = self.showVC;
+                        self.showVC = nextVC;
+                        [self addMaskToVC:self.moveVC];
+                    }
                 }
                 
                 if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
@@ -151,7 +163,6 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                     [self.delegate slideViewController:self willTransitionToViewControllers:self.showVC];
                 }
             }
-            // todo delegate get view
         }
         if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage && self.bMoveNextEnable) {
             self.moveVC.view.right = self.view.width * (1 - rate);
@@ -161,58 +172,67 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
         }
     }
     //手势结束
-    else if (rec.state == UIGestureRecognizerStateEnded) {
-        NSLog(@"info, gesture end with status:%lu", self.currentStatus);
-        if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage || self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage) {
-            rate = rate >= kCompleteRate ? 1 : 0;
+    else if (rec.state == UIGestureRecognizerStateEnded || rec.state == UIGestureRecognizerStateCancelled) {
+        NSLog(@"info, gesture end with status:%lu", (unsigned long)self.currentStatus);
+        rate = rate >= kCompleteRate ? 1 : 0;
+        if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage && self.bMoveLastEnable) {
             [UIView animateWithDuration:0.2 animations:^{
-                if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage) {
-                    self.moveVC.view.right = self.view.width * (1 - rate);
-                }
-                else if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
-                    self.moveVC.view.right = self.view.width * rate;
-                }
+                self.moveVC.view.right = self.view.width * rate;
             } completion:^(BOOL finished) {
-                if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
-                    if (self.delegate) {
-                        [self.delegate slideViewController:self previousViewController:self.moveVC transitionCompleted:rate == 1];
-                    }
-                    if (rate == 1) {
-                        [self.showVC removeFromParentViewController];
-                        [self.showVC.view removeFromSuperview];
-                        self.showVC = self.moveVC;
-                        
-                    }
-                    else {
-                        [self.moveVC removeFromParentViewController];
-                        [self.moveVC.view removeFromSuperview];
-                    }
-                    self.moveVC = nil;
+                if (self.delegate) {
+                    [self.delegate slideViewController:self previousViewController:self.showVC transitionCompleted:rate == 1];
                 }
-                else if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage) {
-                    if (self.delegate) {
-                        [self.delegate slideViewController:self previousViewController:self.showVC transitionCompleted:rate == 1];
-                    }
-                    if (rate == 1) {
-                        [self.moveVC removeFromParentViewController];
-                        [self.moveVC.view removeFromSuperview];
-                    }
-                    else {
-                        [self.showVC removeFromParentViewController];
-                        [self.showVC.view removeFromSuperview];
-                        self.showVC = self.moveVC;
-                    }
-                    self.moveVC = nil;
+                if (rate == 1) {
+                    [self.showVC removeFromParentViewController];
+                    [self.showVC.view removeFromSuperview];
+                    self.showVC = self.moveVC;
+                    
                 }
+                else {
+                    [self.moveVC removeFromParentViewController];
+                    [self.moveVC.view removeFromSuperview];
+                }
+                self.moveVC = nil;
                 
+                self.currentStatus = SSReaderPageEffectViewStatusDefault;
+            }];
+        }
+        if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage && self.bMoveNextEnable) {
+            [UIView animateWithDuration:0.2 animations:^{
+                self.moveVC.view.right = self.view.width * (1 - rate);
+            } completion:^(BOOL finished) {
+                if (self.delegate) {
+                    [self.delegate slideViewController:self previousViewController:self.moveVC transitionCompleted:rate == 1];
+                }
+                if (rate == 1) {
+                    [self.moveVC removeFromParentViewController];
+                    [self.moveVC.view removeFromSuperview];
+                }
+                else {
+                    [self.showVC removeFromParentViewController];
+                    [self.showVC.view removeFromSuperview];
+                    self.showVC = self.moveVC;
+                }
+                self.moveVC = nil;
+
                 self.currentStatus = SSReaderPageEffectViewStatusDefault;
             }];
         }
         else {
             NSLog(@"error");
         }
-        
     }
+}
+
+- (void)addMaskToVC:(UIViewController *)vc {
+    vc.view.layer.shadowColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.8].CGColor;
+    vc.view.layer.shadowOffset = CGSizeMake(5, 5);
+    vc.view.layer.shadowOpacity = 0.8;
+    vc.view.layer.shadowRadius = 6;
+}
+
+- (NSArray<UIViewController *> *)viewControllers {
+    return self.childViewControllers;
 }
 
 - (void)onGestureEnd {

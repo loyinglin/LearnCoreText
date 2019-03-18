@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD8416CE223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8416CD223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.m */; };
 		FDB85929223B9B2000736101 /* SSSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB85928223B9B2000736101 /* SSSlideViewController.m */; };
 		FDD1C61F22268BEE00B1FBA1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD1C61E22268BEE00B1FBA1 /* AppDelegate.m */; };
 		FDD1C62222268BEE00B1FBA1 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD1C62122268BEE00B1FBA1 /* FirstViewController.m */; };
@@ -19,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FD8416CC223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+SSUtil.h"; sourceTree = "<group>"; };
+		FD8416CD223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+SSUtil.m"; sourceTree = "<group>"; };
 		FDB85927223B9B2000736101 /* SSSlideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSSlideViewController.h; sourceTree = "<group>"; };
 		FDB85928223B9B2000736101 /* SSSlideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSSlideViewController.m; sourceTree = "<group>"; };
 		FDD1C61A22268BEE00B1FBA1 /* LearnCoreText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnCoreText.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,6 +70,8 @@
 		FDD1C61C22268BEE00B1FBA1 /* LearnCoreText */ = {
 			isa = PBXGroup;
 			children = (
+				FD8416CC223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.h */,
+				FD8416CD223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.m */,
 				FDD1C63622268EA500B1FBA1 /* UIView+LYLayout.h */,
 				FDD1C63722268EA500B1FBA1 /* UIView+LYLayout.m */,
 				FDD1C61D22268BEE00B1FBA1 /* AppDelegate.h */,
@@ -158,6 +163,7 @@
 			files = (
 				FDD1C62522268BEE00B1FBA1 /* SecondViewController.m in Sources */,
 				FDD1C61F22268BEE00B1FBA1 /* AppDelegate.m in Sources */,
+				FD8416CE223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.m in Sources */,
 				FDD1C63822268EA500B1FBA1 /* UIView+LYLayout.m in Sources */,
 				FDD1C63022268BF000B1FBA1 /* main.m in Sources */,
 				FDB85929223B9B2000736101 /* SSSlideViewController.m in Sources */,

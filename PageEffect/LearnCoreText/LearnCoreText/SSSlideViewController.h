@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<SSSlideViewControllerDelegate> delegate;
 
+@property(nonatomic,copy) NSArray<__kindof UIViewController *> *viewControllers;
+
 - (void)setInitVC:(UIViewController *)vc;
 
 @end
