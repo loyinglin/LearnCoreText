@@ -7,8 +7,10 @@
 //
 
 #import "SecondViewController.h"
+#import "SSScrollViewController.h"
+#import "UIView+LYLayout.h"
 
-@interface SecondViewController ()
+@interface SecondViewController () <SSScrollViewControllerDelegate>
 
 @end
 
@@ -17,7 +19,46 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    SSScrollViewController *vc = [[SSScrollViewController alloc] init];
+    vc.delegate = self;
+    [self addChildViewController:vc];
+    [self.view addSubview:vc.view];
+    
+    [vc setInitVC:[self getRandomVC]];
 }
 
+
+
+- (UIViewController *)scrollViewControllerGetLastVC:(SSScrollViewController *)scrollVC {
+    return [self getRandomVC];
+}
+
+- (UIViewController *)scrollViewControllerGetNextVC:(SSScrollViewController *)scrollVC {
+    return [self getRandomVC];
+}
+
+- (void)scrollViewController:(SSScrollViewController *)scrollVC currentShowViewController:(UIViewController *)viewController {
+    NSLog(@"currentShowViewController:%ld", (long) viewController.view.tag);
+}
+
+- (UIViewController *)getRandomVC {
+    static NSInteger index;
+    ++index;
+    UIViewController *vc = [[UIViewController alloc] init];
+    vc.view.backgroundColor = [UIColor colorWithRed:arc4random_uniform(255) / 255.0
+                                              green:arc4random_uniform(255) / 255.0
+                                               blue:arc4random_uniform(255) / 255.0
+                                              alpha:1];
+    vc.view.height = self.view.height / 4;
+    vc.view.tag = index;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    label.text = [NSString stringWithFormat:@"%ld", (long)index];
+    label.textColor = [UIColor darkGrayColor];
+    [vc.view addSubview:label];
+    
+    return vc;
+}
 
 @end
