@@ -23,6 +23,7 @@
 /* Begin PBXFileReference section */
 		FD2518DC223F465100D6B846 /* SSScrollViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSScrollViewController.h; sourceTree = "<group>"; };
 		FD2518DD223F465100D6B846 /* SSScrollViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSScrollViewController.m; sourceTree = "<group>"; };
+		FD2518E622432DF300D6B846 /* PreHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreHeader.h; sourceTree = "<group>"; };
 		FD8416CC223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+SSUtil.h"; sourceTree = "<group>"; };
 		FD8416CD223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+SSUtil.m"; sourceTree = "<group>"; };
 		FDB85927223B9B2000736101 /* SSSlideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSSlideViewController.h; sourceTree = "<group>"; };
@@ -84,6 +85,7 @@
 				FDD1C62622268BEE00B1FBA1 /* Main.storyboard */,
 				FDD1C62322268BEE00B1FBA1 /* SecondViewController.h */,
 				FDD1C62422268BEE00B1FBA1 /* SecondViewController.m */,
+				FD2518E622432DF300D6B846 /* PreHeader.h */,
 				FD2518DC223F465100D6B846 /* SSScrollViewController.h */,
 				FD2518DD223F465100D6B846 /* SSScrollViewController.m */,
 				FDB85927223B9B2000736101 /* SSSlideViewController.h */,
@@ -317,6 +319,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A478ENRUX2;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/LearnCoreText/PreHeader.h";
 				INFOPLIST_FILE = LearnCoreText/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -335,6 +339,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A478ENRUX2;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/LearnCoreText/PreHeader.h";
 				INFOPLIST_FILE = LearnCoreText/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9;
 				LD_RUNPATH_SEARCH_PATHS = (

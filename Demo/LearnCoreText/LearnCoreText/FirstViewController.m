@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UIButton *kernBtn; // test char space
 @property (nonatomic, strong) UIButton *attachmentBtn;
 @property (nonatomic, strong) UIButton *rangeOfFontBtn;
+@property (nonatomic, strong) UIButton *colorChangeBtn;
 
 @property (nonatomic, strong) UIScrollView *containerScrollView;
 
@@ -129,6 +130,19 @@
         self.rangeOfFontBtn = btn; // 2
     }
     
+    
+    {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, startY, 200, 20)];
+        [btn setTitle:@"改变已有颜色" forState:UIControlStateNormal]; // 1
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.containerScrollView addSubview:btn];
+        [btn addTarget:self action:@selector(onBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        startY += CGRectGetHeight(btn.bounds) + margin;
+        
+        self.colorChangeBtn = btn; // 2
+    }
+    
     self.containerScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), startY);
 }
 
@@ -158,6 +172,9 @@
     }
     else if (btn == self.rangeOfFontBtn) {
         self.topDrawView.image = [self drawRangeOfFontImage];
+    }
+    else if (btn == self.colorChangeBtn) {
+        self.topDrawView.image = [self drawColorChangeImage];
     }
 }
 
@@ -633,6 +650,46 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
         NSString *str = [NSString stringWithFormat:@"一共有%ld种字体", attrArray.count];
         [str drawAtPoint:CGPointMake(100, 100) withAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20]}];
     }
+    
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+}
+
+
+- (UIImage *)drawColorChangeImage {
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
+    
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0, -self.topDrawView.height);
+    
+    CGPoint textPosition = CGPointMake(10, 10);
+    double width = self.topDrawView.width - textPosition.x;
+    static NSAttributedString *staticAttrStr;
+    if (!staticAttrStr) {
+        staticAttrStr = [[NSAttributedString alloc] initWithAttributedString:[self getAttributeStrWithStr:@"测试颜色"]];
+    }
+    else {
+        static BOOL test = NO;
+        test = !test;
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithAttributedString:staticAttrStr];
+        [attr addAttribute:NSForegroundColorAttributeName value:test ? [UIColor redColor] : [UIColor greenColor] range:NSMakeRange(0, staticAttrStr.length)];
+        staticAttrStr = attr;
+        
+//        [staticAttrStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:arc4random_uniform(255) / 255.0
+//                                                                                         green:arc4random_uniform(255) / 255.0
+//                                                                                          blue:arc4random_uniform(255) / 255.0
+//                                                                                         alpha:1]
+//                              range:NSMakeRange(0, staticAttrStr.length)];
+    }
+    // Initialize those variables.
+    CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)staticAttrStr); // 根据富文本创建排版类CTFramesetterRef
+    UIBezierPath * bezierPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, 200, 200)];
+    CTFrameRef frameRef = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, 0), bezierPath.CGPath, NULL); // 创建排版数据，第个参数的range.length=0表示放字符直到区域填满
+    CTFrameDraw(frameRef, context);
     
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

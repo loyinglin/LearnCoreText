@@ -59,7 +59,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
         self.showVC = vc;
     }
     else {
-        NSLog(@"error, set empty initVC");
+        SSLOG_INFO(@"error, set empty initVC");
     }
 }
 
@@ -92,7 +92,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
 
 - (void)onPanGes:(UIPanGestureRecognizer *)rec {
     if (!self.showVC) {
-        NSLog(@"error, no current show vc");
+        SSLOG_INFO(@"error, no current show vc");
         return ;
     }
     CGPoint point = [rec translationInView:self.view];
@@ -131,7 +131,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                     if (!lastVC) {
                         [rec cancelCurrentGestureReccongizing];
                         self.currentStatus = SSReaderPageEffectViewStatusDefault;
-                        NSLog(@"info, reach last end");
+                        SSLOG_INFO(@"info, reach last end");
                     }
                     else {
                         [self addChildViewController:lastVC];
@@ -145,7 +145,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                     if (!nextVC) {
                         [rec cancelCurrentGestureReccongizing];
                         self.currentStatus = SSReaderPageEffectViewStatusDefault;
-                        NSLog(@"info, reach next end");
+                        SSLOG_INFO(@"info, reach next end");
                     }
                     else {
                         [self addChildViewController:nextVC];
@@ -173,53 +173,56 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
     }
     //手势结束
     else if (rec.state == UIGestureRecognizerStateEnded || rec.state == UIGestureRecognizerStateCancelled) {
-        NSLog(@"info, gesture end with status:%lu", (unsigned long)self.currentStatus);
+        SSLOG_INFO(@"info, gesture end with status:%lu", (unsigned long)self.currentStatus);
         rate = rate >= kCompleteRate ? 1 : 0;
         if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage && self.bMoveLastEnable) {
-            [UIView animateWithDuration:0.2 animations:^{
-                self.moveVC.view.right = self.view.width * rate;
-            } completion:^(BOOL finished) {
-                if (self.delegate) {
-                    [self.delegate slideViewController:self previousViewController:self.showVC transitionCompleted:rate == 1];
-                }
-                if (rate == 1) {
-                    [self.showVC removeFromParentViewController];
-                    [self.showVC.view removeFromSuperview];
-                    self.showVC = self.moveVC;
+            if (self.moveVC) { 
+                [UIView animateWithDuration:0.2 animations:^{
+                    self.moveVC.view.right = self.view.width * rate;
+                } completion:^(BOOL finished) {
+                    if (self.delegate) {
+                        [self.delegate slideViewController:self previousViewController:self.showVC transitionCompleted:rate == 1];
+                    }
+                    if (rate == 1) {
+                        [self.showVC removeFromParentViewController];
+                        [self.showVC.view removeFromSuperview];
+                        self.showVC = self.moveVC;
+                    }
+                    else {
+                        [self.moveVC removeFromParentViewController];
+                        [self.moveVC.view removeFromSuperview];
+                    }
+                    self.moveVC = nil;
                     
-                }
-                else {
-                    [self.moveVC removeFromParentViewController];
-                    [self.moveVC.view removeFromSuperview];
-                }
-                self.moveVC = nil;
-                
-                self.currentStatus = SSReaderPageEffectViewStatusDefault;
-            }];
+                    self.currentStatus = SSReaderPageEffectViewStatusDefault;
+                }];
+            }
         }
         if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage && self.bMoveNextEnable) {
-            [UIView animateWithDuration:0.2 animations:^{
-                self.moveVC.view.right = self.view.width * (1 - rate);
-            } completion:^(BOOL finished) {
-                if (self.delegate) {
-                    [self.delegate slideViewController:self previousViewController:self.moveVC transitionCompleted:rate == 1];
-                }
-                if (rate == 1) {
-                    [self.moveVC removeFromParentViewController];
-                    [self.moveVC.view removeFromSuperview];
-                }
-                else {
-                    [self.showVC removeFromParentViewController];
-                    [self.showVC.view removeFromSuperview];
-                    self.showVC = self.moveVC;
-                }
-                self.moveVC = nil;
-
-                self.currentStatus = SSReaderPageEffectViewStatusDefault;
-            }];
+            if (self.moveVC) {
+                [UIView animateWithDuration:0.2 animations:^{
+                    self.moveVC.view.right = self.view.width * (1 - rate);
+                } completion:^(BOOL finished) {
+                    if (self.delegate) {
+                        [self.delegate slideViewController:self previousViewController:self.moveVC transitionCompleted:rate == 1];
+                    }
+                    if (rate == 1) {
+                        [self.moveVC removeFromParentViewController];
+                        [self.moveVC.view removeFromSuperview];
+                    }
+                    else {
+                        [self.showVC removeFromParentViewController];
+                        [self.showVC.view removeFromSuperview];
+                        self.showVC = self.moveVC;
+                    }
+                    self.moveVC = nil;
+                    
+                    self.currentStatus = SSReaderPageEffectViewStatusDefault;
+                }];
+            }
         }
         else {
-            NSLog(@"error");
+            SSLOG_INFO(@"error");
         }
     }
 }
