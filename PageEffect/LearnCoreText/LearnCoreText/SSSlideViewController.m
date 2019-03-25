@@ -25,9 +25,6 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
 
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 
-@property (nonatomic, assign) BOOL bMoveNextEnable;
-@property (nonatomic, assign) BOOL bMoveLastEnable;
-
 @end
 
 @implementation SSSlideViewController
@@ -44,9 +41,6 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
     [self.view addGestureRecognizer:panRecognizer];
     panRecognizer.delegate = self;
     self.panRecognizer = panRecognizer;
-    
-    self.bMoveLastEnable = self.bMoveNextEnable = YES;
-    
 }
 
 #pragma mark - getter&setter
@@ -73,7 +67,6 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
         [self.moveVC.view removeFromSuperview];
     }
     self.currentStatus = SSReaderPageEffectViewStatusDefault;
-    self.bMoveLastEnable = self.bMoveNextEnable = YES;
 }
 #pragma mark - action
 
@@ -164,10 +157,10 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                 }
             }
         }
-        if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage && self.bMoveNextEnable) {
+        if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage) {
             self.moveVC.view.right = self.view.width * (1 - rate);
         }
-        else if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage && self.bMoveLastEnable) {
+        else if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
             self.moveVC.view.right = self.view.width * rate;
         }
     }
@@ -175,7 +168,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
     else if (rec.state == UIGestureRecognizerStateEnded || rec.state == UIGestureRecognizerStateCancelled) {
         SSLOG_INFO(@"info, gesture end with status:%lu", (unsigned long)self.currentStatus);
         rate = rate >= kCompleteRate ? 1 : 0;
-        if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage && self.bMoveLastEnable) {
+        if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
             if (self.moveVC) { 
                 [UIView animateWithDuration:0.2 animations:^{
                     self.moveVC.view.right = self.view.width * rate;
@@ -198,7 +191,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
                 }];
             }
         }
-        if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage && self.bMoveNextEnable) {
+        if (self.currentStatus == SSReaderPageEffectViewStatusMovingToNextPage) {
             if (self.moveVC) {
                 [UIView animateWithDuration:0.2 animations:^{
                     self.moveVC.view.right = self.view.width * (1 - rate);
@@ -222,7 +215,7 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
             }
         }
         else {
-            SSLOG_INFO(@"error");
+            SSLOG_INFO(@"status error");
         }
     }
 }
