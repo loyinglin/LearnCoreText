@@ -51,6 +51,9 @@
     [self.vcArr addObject:vc];
     vc.view.top = self.scrollView.contentOffset.y;
     [self.scrollView addSubview:vc.view];
+    if (self.shouldFullFill) {
+        [self fullFillContent];
+    }
     self.currentVC = vc;
 }
 

@@ -167,7 +167,9 @@ typedef NS_ENUM(NSUInteger, SSReaderPageEffectViewStatus) {
     //手势结束
     else if (rec.state == UIGestureRecognizerStateEnded || rec.state == UIGestureRecognizerStateCancelled) {
         SSLOG_INFO(@"info, gesture end with status:%lu", (unsigned long)self.currentStatus);
-        rate = rate >= kCompleteRate ? 1 : 0;
+        CGPoint speed = [rec velocityInView:rec.view];
+        rate = (rate >= kCompleteRate || fabs(speed.x) > 200) ? 1 : 0; // 经验数值，多次尝试得出
+        
         if (self.currentStatus == SSReaderPageEffectViewStatusMovingToLastPage) {
             if (self.moveVC) { 
                 [UIView animateWithDuration:0.2 animations:^{

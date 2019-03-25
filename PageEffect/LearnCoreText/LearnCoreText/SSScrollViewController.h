@@ -24,6 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SSScrollViewController : UIViewController
 
+
+/**
+ 是否对首屏内容进行填充，保证满屏显示；default是NO
+ */
+@property (nonatomic, assign) BOOL shouldFullFill;
+
 @property (nonatomic, weak) id<SSScrollViewControllerDelegate> delegate;
 
 @property(readonly, nonatomic) NSArray<__kindof UIViewController *> *viewControllers;
