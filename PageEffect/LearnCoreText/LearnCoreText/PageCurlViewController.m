@@ -40,21 +40,34 @@
 - (void)customInitFirstPage {
     UIViewController *vc = [self getRandomVCWithIndex:5];
     NSArray *arr;
-//    if (self.pageVC.doubleSided) {
-//        BackViewController *backVC = [[BackViewController alloc] init];
-//        [backVC updateWithViewController:vc];
-//        backVC.view.tag = vc.view.tag;
-//        arr = @[vc, backVC];
-//    }
-//    else {
-        arr = @[vc];
-//    }
+    arr = @[vc];
     [self.pageVC setViewControllers:arr
                           direction:UIPageViewControllerNavigationDirectionReverse
                            animated:YES
                          completion:^(BOOL finished) {
                          }];
 }
+
+
+- (void)manualChangePage {
+    UIViewController *vc = [self getRandomVCWithIndex:5];
+    NSArray *arr;
+    if (self.pageVC.doubleSided) {
+        BackViewController *backVC = [[BackViewController alloc] init];
+        [backVC updateWithViewController:vc];
+        backVC.view.tag = vc.view.tag;
+        arr = @[vc, backVC];
+    }
+    else {
+        arr = @[vc];
+    }
+    [self.pageVC setViewControllers:arr
+                          direction:UIPageViewControllerNavigationDirectionReverse
+                           animated:YES
+                         completion:^(BOOL finished) {
+                         }];
+}
+
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];

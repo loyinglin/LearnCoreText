@@ -39,7 +39,6 @@
 - (void)customInitFirstPage {
     UIViewController *vc = [self getRandomVCWithIndex:5];
     
-    
     [self.pageVC setViewControllers:@[vc]
                           direction:UIPageViewControllerNavigationDirectionReverse
                            animated:NO
@@ -60,7 +59,7 @@
 
 - (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     UIViewController *ret;
-    UIViewController *vc = [pageViewController.viewControllers firstObject];
+    UIViewController *vc = viewController;
     if (vc) {
         NSInteger index = vc.view.tag;
         if (index > 0) {
@@ -72,7 +71,7 @@
 
 - (nullable UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     UIViewController *ret;
-    UIViewController *vc = [pageViewController.viewControllers lastObject];
+    UIViewController *vc = viewController;
     if (vc) {
         NSInteger index = vc.view.tag;
         if (index < 10) {
