@@ -80,11 +80,72 @@
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="IgO-4E-jqM" kind="relationship" relationship="viewControllers" id="6Vj-9O-yaG"/>
+                        <segue destination="qDW-FX-5IU" kind="relationship" relationship="viewControllers" id="t9C-AZ-JNx"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
+        </scene>
+        <!--平移效果-->
+        <scene sceneID="Naz-wL-pBG">
+            <objects>
+                <viewController id="IgO-4E-jqM" userLabel="平移效果" customClass="PanShiftViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="18C-Hg-EA1"/>
+                        <viewControllerLayoutGuide type="bottom" id="AoD-8l-vJw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="i4f-ro-bdl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="平移" image="first" id="CUH-Zh-jfp" userLabel="平移"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Otd-RZ-oBf" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1430" y="-321"/>
+        </scene>
+        <!--仿真-->
+        <scene sceneID="PET-DR-yWv">
+            <objects>
+                <viewController id="qDW-FX-5IU" userLabel="仿真" customClass="PageCurlViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dCf-bX-vei"/>
+                        <viewControllerLayoutGuide type="bottom" id="v4W-9b-mM1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ptl-uz-Gxk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Second View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="8OC-hH-hwr">
+                                <rect key="frame" x="87" y="312" width="201.5" height="43"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loaded by SecondViewController" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uy3-L2-zTu">
+                                <rect key="frame" x="80" y="363" width="215" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Uy3-L2-zTu" firstAttribute="top" secondItem="8OC-hH-hwr" secondAttribute="bottom" constant="8" symbolic="YES" id="HUM-bK-3QF"/>
+                            <constraint firstItem="Uy3-L2-zTu" firstAttribute="centerX" secondItem="8OC-hH-hwr" secondAttribute="centerX" id="Q6f-FS-6Ta"/>
+                            <constraint firstAttribute="centerY" secondItem="8OC-hH-hwr" secondAttribute="centerY" id="TlM-Ma-0lI"/>
+                            <constraint firstAttribute="centerX" secondItem="8OC-hH-hwr" secondAttribute="centerX" id="cFD-b8-KC5"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="仿真" image="second" id="gZJ-lf-pdf" userLabel="仿真"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Awj-d7-nxW" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1420" y="371"/>
         </scene>
     </scenes>
     <resources>

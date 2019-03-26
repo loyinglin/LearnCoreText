@@ -13,19 +13,6 @@
 
 @interface FirstViewController () <SSSlideViewControllerDelegate>
 
-@property (nonatomic, strong) UIButton *lineFrameBtn;
-@property (nonatomic, strong) UIButton *columnFrameBtn;
-@property (nonatomic, strong) UIButton *nonrectangleFrameBtn;
-@property (nonatomic, strong) UIButton *kernBtn; // test char space
-@property (nonatomic, strong) UIButton *attachmentBtn;
-@property (nonatomic, strong) UIButton *rangeOfFontBtn;
-
-@property (nonatomic, strong) UIScrollView *containerScrollView;
-
-@property (nonatomic, strong) UIImageView *topDrawView;
-
-
-
 @end
 
 @implementation FirstViewController

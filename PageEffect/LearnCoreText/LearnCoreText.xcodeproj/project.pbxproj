@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		FD2518DE223F465100D6B846 /* SSScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD2518DD223F465100D6B846 /* SSScrollViewController.m */; };
+		FD4F98422249A9940041A8DA /* PanShiftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD4F98412249A9940041A8DA /* PanShiftViewController.m */; };
+		FD4F98462249AD360041A8DA /* PageCurlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD4F98452249AD360041A8DA /* PageCurlViewController.m */; };
+		FD4F98492249AD890041A8DA /* BackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD4F98482249AD890041A8DA /* BackViewController.m */; };
 		FD8416CE223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = FD8416CD223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.m */; };
 		FDB85929223B9B2000736101 /* SSSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDB85928223B9B2000736101 /* SSSlideViewController.m */; };
 		FDD1C61F22268BEE00B1FBA1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD1C61E22268BEE00B1FBA1 /* AppDelegate.m */; };
@@ -24,6 +27,12 @@
 		FD2518DC223F465100D6B846 /* SSScrollViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSScrollViewController.h; sourceTree = "<group>"; };
 		FD2518DD223F465100D6B846 /* SSScrollViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSScrollViewController.m; sourceTree = "<group>"; };
 		FD2518E622432DF300D6B846 /* PreHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreHeader.h; sourceTree = "<group>"; };
+		FD4F98402249A9940041A8DA /* PanShiftViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanShiftViewController.h; sourceTree = "<group>"; };
+		FD4F98412249A9940041A8DA /* PanShiftViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PanShiftViewController.m; sourceTree = "<group>"; };
+		FD4F98442249AD360041A8DA /* PageCurlViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PageCurlViewController.h; sourceTree = "<group>"; };
+		FD4F98452249AD360041A8DA /* PageCurlViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageCurlViewController.m; sourceTree = "<group>"; };
+		FD4F98472249AD890041A8DA /* BackViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BackViewController.h; sourceTree = "<group>"; };
+		FD4F98482249AD890041A8DA /* BackViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BackViewController.m; sourceTree = "<group>"; };
 		FD8416CC223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+SSUtil.h"; sourceTree = "<group>"; };
 		FD8416CD223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+SSUtil.m"; sourceTree = "<group>"; };
 		FDB85927223B9B2000736101 /* SSSlideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSSlideViewController.h; sourceTree = "<group>"; };
@@ -55,6 +64,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FD4F98432249AC1D0041A8DA /* res */ = {
+			isa = PBXGroup;
+			children = (
+				FDD1C62E22268BF000B1FBA1 /* Info.plist */,
+				FDD1C62922268BF000B1FBA1 /* Assets.xcassets */,
+				FDD1C62B22268BF000B1FBA1 /* LaunchScreen.storyboard */,
+			);
+			path = res;
+			sourceTree = "<group>";
+		};
 		FDD1C61122268BEE00B1FBA1 = {
 			isa = PBXGroup;
 			children = (
@@ -76,16 +95,19 @@
 			children = (
 				FDD1C61D22268BEE00B1FBA1 /* AppDelegate.h */,
 				FDD1C61E22268BEE00B1FBA1 /* AppDelegate.m */,
-				FDD1C62922268BF000B1FBA1 /* Assets.xcassets */,
 				FDD1C62022268BEE00B1FBA1 /* FirstViewController.h */,
 				FDD1C62122268BEE00B1FBA1 /* FirstViewController.m */,
-				FDD1C62E22268BF000B1FBA1 /* Info.plist */,
-				FDD1C62B22268BF000B1FBA1 /* LaunchScreen.storyboard */,
 				FDD1C62F22268BF000B1FBA1 /* main.m */,
 				FDD1C62622268BEE00B1FBA1 /* Main.storyboard */,
+				FD4F98402249A9940041A8DA /* PanShiftViewController.h */,
+				FD4F98412249A9940041A8DA /* PanShiftViewController.m */,
+				FD4F98442249AD360041A8DA /* PageCurlViewController.h */,
+				FD4F98452249AD360041A8DA /* PageCurlViewController.m */,
+				FD4F98472249AD890041A8DA /* BackViewController.h */,
+				FD4F98482249AD890041A8DA /* BackViewController.m */,
+				FD2518E622432DF300D6B846 /* PreHeader.h */,
 				FDD1C62322268BEE00B1FBA1 /* SecondViewController.h */,
 				FDD1C62422268BEE00B1FBA1 /* SecondViewController.m */,
-				FD2518E622432DF300D6B846 /* PreHeader.h */,
 				FD2518DC223F465100D6B846 /* SSScrollViewController.h */,
 				FD2518DD223F465100D6B846 /* SSScrollViewController.m */,
 				FDB85927223B9B2000736101 /* SSSlideViewController.h */,
@@ -94,6 +116,7 @@
 				FD8416CD223E5EEB00BF8715 /* UIGestureRecognizer+SSUtil.m */,
 				FDD1C63622268EA500B1FBA1 /* UIView+LYLayout.h */,
 				FDD1C63722268EA500B1FBA1 /* UIView+LYLayout.m */,
+				FD4F98432249AC1D0041A8DA /* res */,
 			);
 			path = LearnCoreText;
 			sourceTree = "<group>";
@@ -174,7 +197,10 @@
 				FDD1C63822268EA500B1FBA1 /* UIView+LYLayout.m in Sources */,
 				FDD1C63022268BF000B1FBA1 /* main.m in Sources */,
 				FDB85929223B9B2000736101 /* SSSlideViewController.m in Sources */,
+				FD4F98492249AD890041A8DA /* BackViewController.m in Sources */,
 				FDD1C62222268BEE00B1FBA1 /* FirstViewController.m in Sources */,
+				FD4F98462249AD360041A8DA /* PageCurlViewController.m in Sources */,
+				FD4F98422249A9940041A8DA /* PanShiftViewController.m in Sources */,
 				FD2518DE223F465100D6B846 /* SSScrollViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -321,7 +347,7 @@
 				DEVELOPMENT_TEAM = A478ENRUX2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/LearnCoreText/PreHeader.h";
-				INFOPLIST_FILE = LearnCoreText/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/LearnCoreText/res/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -341,7 +367,7 @@
 				DEVELOPMENT_TEAM = A478ENRUX2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/LearnCoreText/PreHeader.h";
-				INFOPLIST_FILE = LearnCoreText/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/LearnCoreText/res/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
