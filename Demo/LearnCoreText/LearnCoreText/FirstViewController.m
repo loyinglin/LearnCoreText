@@ -12,6 +12,7 @@
 
 @interface FirstViewController ()
 
+@property (nonatomic, strong) UIButton *normalFrameBtn;
 @property (nonatomic, strong) UIButton *lineFrameBtn;
 @property (nonatomic, strong) UIButton *columnFrameBtn;
 @property (nonatomic, strong) UIButton *nonrectangleFrameBtn;
@@ -19,6 +20,7 @@
 @property (nonatomic, strong) UIButton *attachmentBtn;
 @property (nonatomic, strong) UIButton *rangeOfFontBtn;
 @property (nonatomic, strong) UIButton *colorChangeBtn;
+@property (nonatomic, strong) UIButton *ctLineBtn;
 
 @property (nonatomic, strong) UIScrollView *containerScrollView;
 
@@ -55,9 +57,23 @@
 - (void)customInit {
     CGFloat startY = self.topDrawView.bottom;
     CGFloat margin = 20;
+    
     {
         UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, startY, 200, 20)];
-        [btn setTitle:@"行布局" forState:UIControlStateNormal];
+        [btn setTitle:@"正常布局" forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.containerScrollView addSubview:btn];
+        [btn addTarget:self action:@selector(onBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        startY += CGRectGetHeight(btn.bounds) + margin;
+        
+        self.normalFrameBtn = btn;
+    }
+    
+    
+    {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, startY, 200, 20)];
+        [btn setTitle:@"单行布局" forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.containerScrollView addSubview:btn];
         [btn addTarget:self action:@selector(onBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -143,6 +159,18 @@
         self.colorChangeBtn = btn; // 2
     }
     
+    {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, startY, 200, 20)];
+        [btn setTitle:@"CTLine排版" forState:UIControlStateNormal]; // 1
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.containerScrollView addSubview:btn];
+        [btn addTarget:self action:@selector(onBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        startY += CGRectGetHeight(btn.bounds) + margin;
+        
+        self.ctLineBtn = btn; // 2
+    }
+    
     self.containerScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), startY);
 }
 
@@ -155,7 +183,10 @@
 #pragma mark - action
 
 - (void)onBtnClick:(UIButton *)btn {
-    if (btn == self.lineFrameBtn) {
+    if (btn == self.normalFrameBtn) {
+        self.topDrawView.image = [self drawNormalImage];
+    }
+    else if (btn == self.lineFrameBtn) {
         self.topDrawView.image = [self drawLineImage];
     }
     else if (btn == self.columnFrameBtn) {
@@ -176,11 +207,65 @@
     else if (btn == self.colorChangeBtn) {
         self.topDrawView.image = [self drawColorChangeImage];
     }
+    else if (btn == self.ctLineBtn) {
+        self.topDrawView.image = [self drawCTLineImage];
+    }
 }
 
 #pragma mark - delegate
 
 #pragma mark - private
+
+- (UIImage *)drawNormalImage {
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
+    
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0, -self.topDrawView.height);
+    
+    NSString *str = @"一二三四五六七八九十";
+    CFMutableAttributedStringRef attrString = (__bridge CFMutableAttributedStringRef)[self getNormalMutableAttributeStrWithStr:str];
+//    CFAttributedStringSetAttribute(attrString, CFRangeMake(0, str.length), kCTFrameProgressionAttributeName, (__bridge CFTypeRef)(@(kCTFrameProgressionRightToLeft))); 并不是char的属性，白费力气
+
+    CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString(attrString);
+    UIBezierPath * bezierPath = [UIBezierPath bezierPathWithRect:CGRectMake(100, 0, self.topDrawView.width, self.topDrawView.height / 2)];
+    CTFrameRef frameRef = CTFramesetterCreateFrame(frameSetter,
+                                                   CFRangeMake(0, 0),
+                                                   bezierPath.CGPath,
+                                                   (CFDictionaryRef)@{(NSString *)kCTFrameProgressionAttributeName:
+                                                                          @(kCTFrameProgressionLeftToRight)});
+    CTFrameDraw(frameRef, context);
+    // create 和 release 一一对应
+    CFRelease(frameSetter);
+    CFRelease(frameRef);
+    
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+}
+
+
+- (NSMutableAttributedString *)getNormalMutableAttributeStrWithStr:(NSString *)contentStr {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    dict[NSFontAttributeName] = [UIFont systemFontOfSize:14];
+    dict[NSForegroundColorAttributeName] = [UIColor redColor];
+    dict[NSKernAttributeName] = @(0.1);
+    dict[NSBackgroundColorAttributeName] = [UIColor lightGrayColor];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.lineSpacing = 1.0;
+    
+    paragraphStyle.paragraphSpacing = 10;
+    paragraphStyle.alignment = NSTextAlignmentJustified;
+    dict[NSParagraphStyleAttributeName] = paragraphStyle;
+    
+    NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithString:contentStr
+                                                              attributes:dict];
+    return ret;
+}
 
 - (UIImage *)drawLineImage {
     UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
@@ -190,31 +275,13 @@
     CGContextScaleCTM(context, 1.0, -1.0);
     CGContextTranslateCTM(context, 0, -self.topDrawView.height);
     
-    CGPoint textPosition = CGPointMake(10, 10);
-    double width = self.topDrawView.width - textPosition.x;
-    CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)[self getAttributeStrWithStr:@"一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十"];
-    // Initialize those variables.
-    
-    // Create a typesetter using the attributed string.
+    // CTLine
+    CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)[self getAttributeStrWithStr:@"一二三四五六七八九十"];
     CTTypesetterRef typesetter = CTTypesetterCreateWithAttributedString(attrString);
-    
-    // Find a break for line from the beginning of the string to the given width.
-    CFIndex start = 0;
-    CFIndex count = CTTypesetterSuggestLineBreak(typesetter, start, width);
-    
-    // Use the returned character count (to the break) to create the line.
-    CTLineRef line = CTTypesetterCreateLine(typesetter, CFRangeMake(start, count));
-    
-    // Get the offset needed to center the line.
-    float flush = 0.5; // centered
-    double penOffset = CTLineGetPenOffsetForFlush(line, flush, width);
-    
-    // Move the given text drawing position by the calculated offset and draw the line.
-    CGContextSetTextPosition(context, textPosition.x + penOffset, textPosition.y);
+    CFIndex count = CTTypesetterSuggestLineBreak(typesetter, 0, 150); // WIDTH=150
+    CTLineRef line = CTTypesetterCreateLine(typesetter, CFRangeMake(0, count));
+    CGContextSetTextPosition(context, 10, 10);
     CTLineDraw(line, context);
-    
-    // Move the index beyond the line break.
-    start += count;
 
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -225,7 +292,7 @@
 
 - (NSAttributedString *)getAttributeStrWithStr:(NSString *)contentStr {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    dict[NSFontAttributeName] = [UIFont systemFontOfSize:14];
+    dict[NSFontAttributeName] = [UIFont systemFontOfSize:18];
     dict[NSForegroundColorAttributeName] = [UIColor redColor];
     dict[NSKernAttributeName] = @(0.1);
     dict[NSBackgroundColorAttributeName] = [UIColor lightGrayColor];
@@ -696,5 +763,57 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
     
     return scaledImage;
 }
+
+
+- (UIImage *)drawCTLineImage {
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0, -self.topDrawView.height);
+    
+    NSString *str = @"UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);\nUIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);";
+    CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)[self getAttributeStrWithStr:str];
+    
+    CTTypesetterRef typesetter = CTTypesetterCreateWithAttributedString(attrString);
+    
+    CFIndex start = 0;
+    CGPoint textPosition = CGPointMake(0, 55);
+    double width = 400;
+    
+    BOOL isCharLineBreak = NO;
+    BOOL isJustifiedLine = NO;
+    
+    while (start < str.length) {
+        CFIndex count;
+        
+        if (isCharLineBreak) {
+            count = CTTypesetterSuggestClusterBreak(typesetter, start, width);
+        }
+        else {
+            count = CTTypesetterSuggestLineBreak(typesetter, start, width);
+        }
+        CTLineRef line = CTTypesetterCreateLine(typesetter, CFRangeMake(start, count));
+        
+        if (isJustifiedLine) {
+            line = CTLineCreateJustifiedLine(line, 1, width);
+        }
+
+        float flush = 0.5; // centered
+        double penOffset = CTLineGetPenOffsetForFlush(line, flush, width);
+        
+        CGContextSetTextPosition(context, textPosition.x + penOffset, self.topDrawView.height - textPosition.y);
+        CTLineDraw(line, context);
+        
+        textPosition.y += CTLineGetBoundsWithOptions(line, 0).size.height;
+        start += count;
+    }
+    
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+}
+
 
 @end
