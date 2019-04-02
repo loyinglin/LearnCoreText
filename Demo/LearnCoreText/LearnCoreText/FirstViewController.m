@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UIButton *rangeOfFontBtn;
 @property (nonatomic, strong) UIButton *colorChangeBtn;
 @property (nonatomic, strong) UIButton *ctLineBtn;
+@property (nonatomic, strong) UIButton *ctRunBtn;
 
 @property (nonatomic, strong) UIScrollView *containerScrollView;
 
@@ -171,6 +172,18 @@
         self.ctLineBtn = btn; // 2
     }
     
+    {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, startY, 200, 20)];
+        [btn setTitle:@"CTRun排版" forState:UIControlStateNormal]; // 1
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.containerScrollView addSubview:btn];
+        [btn addTarget:self action:@selector(onBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        startY += CGRectGetHeight(btn.bounds) + margin;
+        
+        self.ctRunBtn = btn; // 2
+    }
+    
     self.containerScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), startY);
 }
 
@@ -210,6 +223,9 @@
     else if (btn == self.ctLineBtn) {
         self.topDrawView.image = [self drawCTLineImage];
     }
+    else if (btn == self.ctRunBtn) {
+        self.topDrawView.image = [self drawCTRunImage];
+    }
 }
 
 #pragma mark - delegate
@@ -224,17 +240,14 @@
     CGContextScaleCTM(context, 1.0, -1.0);
     CGContextTranslateCTM(context, 0, -self.topDrawView.height);
     
-    NSString *str = @"一二三四五六七八九十";
+    NSString *str = @"一二三四五六七八九十一二三四五六七八九十\n一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十";
     CFMutableAttributedStringRef attrString = (__bridge CFMutableAttributedStringRef)[self getNormalMutableAttributeStrWithStr:str];
-//    CFAttributedStringSetAttribute(attrString, CFRangeMake(0, str.length), kCTFrameProgressionAttributeName, (__bridge CFTypeRef)(@(kCTFrameProgressionRightToLeft))); 并不是char的属性，白费力气
 
     CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString(attrString);
-    UIBezierPath * bezierPath = [UIBezierPath bezierPathWithRect:CGRectMake(100, 0, self.topDrawView.width, self.topDrawView.height / 2)];
+    UIBezierPath * bezierPath = [UIBezierPath bezierPathWithRect:CGRectMake(30, 0, self.topDrawView.width / 2, self.topDrawView.height / 2)];
     CTFrameRef frameRef = CTFramesetterCreateFrame(frameSetter,
                                                    CFRangeMake(0, 0),
-                                                   bezierPath.CGPath,
-                                                   (CFDictionaryRef)@{(NSString *)kCTFrameProgressionAttributeName:
-                                                                          @(kCTFrameProgressionLeftToRight)});
+                                                   bezierPath.CGPath, NULL);
     CTFrameDraw(frameRef, context);
     // create 和 release 一一对应
     CFRelease(frameSetter);
@@ -258,7 +271,7 @@
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
     paragraphStyle.lineSpacing = 1.0;
     
-    paragraphStyle.paragraphSpacing = 10;
+//    paragraphStyle.paragraphSpacing = 10;
     paragraphStyle.alignment = NSTextAlignmentJustified;
     dict[NSParagraphStyleAttributeName] = paragraphStyle;
     
@@ -324,32 +337,44 @@
     // Create the framesetter with the attributed string.
     CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString(attrString);
     
-    // Call createColumnsWithColumnCount function to create an array of
-    // three paths (columns).
-    CFArrayRef columnPaths = [self createColumnsWithColumnCount:10];
+    BOOL isUseFrameAttribute = YES;
     
-    CFIndex pathCount = CFArrayGetCount(columnPaths);
-    CFIndex startIndex = 0;
-    int column;
-    
-    // Create a frame for each column (path).
-    for (column = 0; column < pathCount; column++) {
-        // Get the path for this column.
-        CGPathRef path = (CGPathRef)CFArrayGetValueAtIndex(columnPaths, column);
-        
-        // Create a frame for this column and draw it.
-        CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(startIndex, 0), path, NULL);
-        CTFrameDraw(frame, context);
-        
-        // Start the next frame at the first character not visible in this frame.
-        CFRange frameRange = CTFrameGetVisibleStringRange(frame);
-        startIndex += frameRange.length;
-        CFRelease(frame);
-        
+    if (isUseFrameAttribute) {
+        UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRect:CGRectMake(30, 30, self.topDrawView.width / 2, self.topDrawView.height / 2)];
+        CTFrameRef frameRef = CTFramesetterCreateFrame(framesetter,
+                                                       CFRangeMake(0, 0),
+                                                       bezierPath.CGPath,
+                                                       (CFDictionaryRef)@{(NSString *)kCTFrameProgressionAttributeName:@(kCTFrameProgressionLeftToRight)});
+        CTFrameDraw(frameRef, context);
     }
-    CFRelease(columnPaths);
-    CFRelease(framesetter);
+    else {
+        // Call createColumnsWithColumnCount function to create an array of
+        // three paths (columns).
+        CFArrayRef columnPaths = [self createColumnsWithColumnCount:10];
+        
+        CFIndex pathCount = CFArrayGetCount(columnPaths);
+        CFIndex startIndex = 0;
+        int column;
+        
+        // Create a frame for each column (path).
+        for (column = 0; column < pathCount; column++) {
+            // Get the path for this column.
+            CGPathRef path = (CGPathRef)CFArrayGetValueAtIndex(columnPaths, column);
+            
+            // Create a frame for this column and draw it.
+            CTFrameRef frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(startIndex, 0), path, NULL);
+            CTFrameDraw(frame, context);
+            
+            // Start the next frame at the first character not visible in this frame.
+            CFRange frameRange = CTFrameGetVisibleStringRange(frame);
+            startIndex += frameRange.length;
+            CFRelease(frame);
+            
+        }
+        CFRelease(columnPaths);
+    }
     
+    CFRelease(framesetter);
     
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -772,21 +797,20 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
     CGContextScaleCTM(context, 1.0, -1.0);
     CGContextTranslateCTM(context, 0, -self.topDrawView.height);
     
-    NSString *str = @"UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);\nUIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);";
+    NSString *str = @"Guangdong has recently published Several Policies and Measures for Promoting Scientific and Technological Innovation";
     CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)[self getAttributeStrWithStr:str];
     
     CTTypesetterRef typesetter = CTTypesetterCreateWithAttributedString(attrString);
     
     CFIndex start = 0;
     CGPoint textPosition = CGPointMake(0, 55);
-    double width = 400;
+    double width = self.topDrawView.width;
     
     BOOL isCharLineBreak = NO;
     BOOL isJustifiedLine = NO;
-    
+    float flush = 0; // centered，可以调整这里的数字0是左对齐，1是右对齐，0.5居中
     while (start < str.length) {
         CFIndex count;
-        
         if (isCharLineBreak) {
             count = CTTypesetterSuggestClusterBreak(typesetter, start, width);
         }
@@ -794,20 +818,56 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
             count = CTTypesetterSuggestLineBreak(typesetter, start, width);
         }
         CTLineRef line = CTTypesetterCreateLine(typesetter, CFRangeMake(start, count));
-        
         if (isJustifiedLine) {
             line = CTLineCreateJustifiedLine(line, 1, width);
         }
-
-        float flush = 0.5; // centered
         double penOffset = CTLineGetPenOffsetForFlush(line, flush, width);
-        
         CGContextSetTextPosition(context, textPosition.x + penOffset, self.topDrawView.height - textPosition.y);
         CTLineDraw(line, context);
-        
         textPosition.y += CTLineGetBoundsWithOptions(line, 0).size.height;
         start += count;
     }
+    
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+}
+
+- (UIImage *)drawCTRunImage {
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
+    
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0, -self.topDrawView.height);
+    
+    // CTLine
+    CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)[self getAttributeStrWithStr:@"一二三四Guangdong has recently published Several五六七八九十"];
+    CTTypesetterRef typesetter = CTTypesetterCreateWithAttributedString(attrString);
+    CFIndex count = CTTypesetterSuggestLineBreak(typesetter, 0, 300);
+    CTLineRef line = CTTypesetterCreateLine(typesetter, CFRangeMake(0, count));
+    CFArrayRef runsArr = CTLineGetGlyphRuns(line);
+    CFIndex runsCount = CFArrayGetCount(runsArr);
+    
+    for (int i = 0; i < runsCount; ++i) {
+        CTRunRef run = CFArrayGetValueAtIndex(runsArr, i);
+
+        CGContextSetTextPosition(context, 20, 20);
+        CTRunDraw(run, context, CFRangeMake(0, 0));
+
+//        CFIndex glyphCount = CTRunGetGlyphCount(run);
+//        CGPoint *positions = calloc(glyphCount, sizeof(CGPoint));
+//        CTRunGetPositions(run, CFRangeMake(0, 0), positions);
+//        CGGlyph *glyphs = calloc(glyphCount, sizeof(CGGlyph));
+//        CTRunGetGlyphs(run, CFRangeMake(0, 0), glyphs);
+//        CGContextShowGlyphsAtPositions(context, glyphs, positions, glyphCount);
+//        free(positions);
+//        free(glyphs);
+    }
+    
+    CFRelease(line);
+    CFRelease(typesetter);
     
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
