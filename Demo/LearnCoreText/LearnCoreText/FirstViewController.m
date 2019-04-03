@@ -22,6 +22,8 @@
 @property (nonatomic, strong) UIButton *colorChangeBtn;
 @property (nonatomic, strong) UIButton *ctLineBtn;
 @property (nonatomic, strong) UIButton *ctRunBtn;
+@property (nonatomic, strong) UIButton *fillAndStrokeColorBtn;
+@property (nonatomic, strong) UIButton *textWithEmpytLayoutBtn;
 
 @property (nonatomic, strong) UIScrollView *containerScrollView;
 
@@ -184,6 +186,30 @@
         self.ctRunBtn = btn; // 2
     }
     
+    {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, startY, 200, 20)];
+        [btn setTitle:@"Fill 和 Stroke Color" forState:UIControlStateNormal]; // 1
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.containerScrollView addSubview:btn];
+        [btn addTarget:self action:@selector(onBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        startY += CGRectGetHeight(btn.bounds) + margin;
+        
+        self.fillAndStrokeColorBtn = btn; // 2
+    }
+    
+    {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, startY, 200, 20)];
+        [btn setTitle:@"图文混排" forState:UIControlStateNormal]; // 1
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.containerScrollView addSubview:btn];
+        [btn addTarget:self action:@selector(onBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        startY += CGRectGetHeight(btn.bounds) + margin;
+        
+        self.textWithEmpytLayoutBtn = btn; // 2
+    }
+    
     self.containerScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), startY);
 }
 
@@ -225,6 +251,12 @@
     }
     else if (btn == self.ctRunBtn) {
         self.topDrawView.image = [self drawCTRunImage];
+    }
+    else if (btn == self.fillAndStrokeColorBtn) {
+        self.topDrawView.image = [self drawFillAndStrokeColorImage];
+    }
+    else if (btn == self.textWithEmpytLayoutBtn) {
+        self.topDrawView.image = [self drawTextWithEmptyLayoutImage];
     }
 }
 
@@ -565,7 +597,7 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     dict[NSFontAttributeName] = [UIFont systemFontOfSize:14];
     dict[NSForegroundColorAttributeName] = [UIColor redColor];
-    dict[NSKernAttributeName] = @(1);
+    dict[NSKernAttributeName] = @(0);
     dict[NSBackgroundColorAttributeName] = [UIColor lightGrayColor];
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
@@ -888,5 +920,123 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
     return scaledImage;
 }
 
+
+- (UIImage *)drawFillAndStrokeColorImage {
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
+    
+    NSString *string = @"文字测试";
+    NSMutableDictionary *stringAttributes = [NSMutableDictionary dictionary];
+    
+    // Define the font and fill color
+    [stringAttributes setObject: [UIFont systemFontOfSize:100] forKey: NSFontAttributeName];
+    [stringAttributes setObject: [UIColor grayColor] forKey: NSForegroundColorAttributeName];
+    [stringAttributes setObject: [NSNumber numberWithFloat: 0] forKey: NSStrokeWidthAttributeName];
+    [stringAttributes setObject: [UIColor redColor] forKey: NSStrokeColorAttributeName];
+    
+    [[UIColor grayColor] set];
+    
+    // Draw the string
+    [string drawAtPoint:CGPointMake(0, 50) withAttributes: stringAttributes];
+
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+}
+
+
+- (UIImage *)drawTextWithEmptyLayoutImage {
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
+    
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0, -self.topDrawView.height);
+    
+    NSMutableAttributedString *mutableAttrString = [[NSMutableAttributedString alloc] initWithAttributedString:[self getAttributeStrWithStr:@"图文混排"]];
+    [mutableAttrString insertAttributedString:[self getEmtpyAttributeString] atIndex:2];
+    
+    CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)mutableAttrString;
+    CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString(attrString);
+    CGFloat marginX = 30;
+    UIBezierPath * bezierPath = [UIBezierPath bezierPathWithRect:CGRectMake(marginX, 0, self.topDrawView.width / 2, self.topDrawView.height / 2)];
+    CTFrameRef frameRef = CTFramesetterCreateFrame(frameSetter,
+                                                   CFRangeMake(0, 0),
+                                                   bezierPath.CGPath, NULL);
+    CTFrameDraw(frameRef, context);
+    // 计算图片所在位置
+    CFArrayRef linesArr = CTFrameGetLines(frameRef);
+    for (int i = 0; i < CFArrayGetCount(linesArr); ++i) {
+        CTLineRef line = CFArrayGetValueAtIndex(linesArr, i);
+        CFArrayRef runsArr = CTLineGetGlyphRuns(line);
+        for (int j = 0; j < CFArrayGetCount(runsArr); ++j) {
+            CTRunRef run = CFArrayGetValueAtIndex(runsArr, j);
+            CTRunDelegateRef delegate = CFDictionaryGetValue(CTRunGetAttributes(run), kCTRunDelegateAttributeName);
+            if (!delegate) {
+                continue;
+            }
+            NSValue *data = CTRunDelegateGetRefCon(delegate);
+            if (!data) {
+                continue;
+            }
+            // 找到添加的特殊字符
+            CGSize size = [data CGSizeValue];
+            CGFloat offsetX;
+            CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, &offsetX);
+            
+            CGPoint lineOrigin;
+            CTFrameGetLineOrigins(frameRef, CFRangeMake(i, 1), &lineOrigin); // 获取第i行的位置
+            
+            UIImage *image = [UIImage imageNamed:@"abc"];
+            CGContextDrawImage(context, CGRectMake(lineOrigin.x + offsetX + marginX, lineOrigin.y, size.width, size.height), image.CGImage);
+//            [image drawInRect:CGRectMake(lineOrigin.x + offsetX + marginX, lineOrigin.y, size.width, size.height)];
+        }
+    }
+    // create 和 release 一一对应
+    CFRelease(frameSetter);
+    CFRelease(frameRef);
+    
+    
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+}
+
+static CGFloat ascentCallback(void * refCon){
+    NSValue *data = (__bridge NSValue *)refCon;
+    return [data CGSizeValue].height;
+}
+
+static CGFloat descentCallback(void * refCon){
+    return 0;
+}
+
+static CGFloat widthCallback(void * refCon){
+    NSValue *data = (__bridge NSValue *)refCon;
+    return [data CGSizeValue].width;
+}
+
+
+- (NSAttributedString *)getEmtpyAttributeString {
+    CTRunDelegateCallbacks callbacks;
+    memset(&callbacks, 0, sizeof(CTRunDelegateCallbacks));
+    callbacks.version = kCTRunDelegateVersion1;
+    callbacks.getAscent = ascentCallback;
+    callbacks.getDescent = descentCallback;
+    callbacks.getWidth = widthCallback;
+    CGSize size = CGSizeMake(50, 50);
+    CTRunDelegateRef delegate = CTRunDelegateCreate(&callbacks, (__bridge void *)([NSValue valueWithCGSize:size]));
+    NSMutableAttributedString *space = [[NSMutableAttributedString alloc] initWithString:@" " attributes:
+  @{NSBackgroundColorAttributeName:[UIColor colorWithRed:0.5 green:1 blue:0.5 alpha:0.5],
+    NSForegroundColorAttributeName:[UIColor greenColor],
+    }];
+    CFAttributedStringSetAttribute((CFMutableAttributedStringRef)space,
+                                   CFRangeMake(0, 1),
+                                   kCTRunDelegateAttributeName,
+                                   delegate);
+    CFRelease(delegate);
+    return space;
+}
 
 @end
