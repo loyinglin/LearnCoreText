@@ -849,21 +849,34 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
     CTLineRef line = CTTypesetterCreateLine(typesetter, CFRangeMake(0, count));
     CFArrayRef runsArr = CTLineGetGlyphRuns(line);
     CFIndex runsCount = CFArrayGetCount(runsArr);
+    BOOL isManualDraw = YES;
     
     for (int i = 0; i < runsCount; ++i) {
         CTRunRef run = CFArrayGetValueAtIndex(runsArr, i);
-
         CGContextSetTextPosition(context, 20, 20);
-        CTRunDraw(run, context, CFRangeMake(0, 0));
-
-//        CFIndex glyphCount = CTRunGetGlyphCount(run);
-//        CGPoint *positions = calloc(glyphCount, sizeof(CGPoint));
-//        CTRunGetPositions(run, CFRangeMake(0, 0), positions);
-//        CGGlyph *glyphs = calloc(glyphCount, sizeof(CGGlyph));
-//        CTRunGetGlyphs(run, CFRangeMake(0, 0), glyphs);
-//        CGContextShowGlyphsAtPositions(context, glyphs, positions, glyphCount);
-//        free(positions);
-//        free(glyphs);
+        if (!isManualDraw) {
+            CTRunDraw(run, context, CFRangeMake(0, 0));
+        }
+        else {
+            CFIndex glyphCount = CTRunGetGlyphCount(run);
+            CGPoint *positions = calloc(glyphCount, sizeof(CGPoint));
+            CTRunGetPositions(run, CFRangeMake(0, 0), positions);
+            CGGlyph *glyphs = calloc(glyphCount, sizeof(CGGlyph));
+            CTRunGetGlyphs(run, CFRangeMake(0, 0), glyphs);
+            CFDictionaryRef attrDic = CTRunGetAttributes(run);
+            CTFontRef runFont = CFDictionaryGetValue(attrDic, kCTFontAttributeName);
+            CGFontRef cgFont = CTFontCopyGraphicsFont(runFont, NULL);
+            CGColorRef fontColor = (CGColorRef)CFDictionaryGetValue(attrDic, NSForegroundColorAttributeName);
+            CGFloat fontSize = CTFontGetSize(runFont);
+            CGContextSetFont(context, cgFont);
+            CGContextSetFontSize(context, fontSize);
+            [(__bridge UIColor *)fontColor setFill];
+            // CGColorGetComponents(fontColor) 获取到的颜色是空的，包括CGColorGetAlpha
+            //        CGContextSetFillColor(context, CGColorGetComponents(fontColor));
+            CGContextShowGlyphsAtPositions(context, glyphs, positions, glyphCount);
+            free(positions);
+            free(glyphs);
+        }
     }
     
     CFRelease(line);
