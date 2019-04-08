@@ -438,7 +438,7 @@
     
     CGRect* columnRects = (CGRect*)calloc(columnCount, sizeof(*columnRects));
     // Set the first column to cover the entire view.
-    columnRects[0] = CGRectMake(0, 0, 15 * columnCount, self.topDrawView.height - 22 * 2);
+    columnRects[0] = CGRectMake(40, 0, 15 * columnCount, self.topDrawView.height - 22 * 2);
     
     // Divide the columns equally across the frame's width.
     CGFloat columnWidth = 15; // CGRectGetWidth(self.topDrawView.bounds) / columnCount;
@@ -829,17 +829,17 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
     CGContextScaleCTM(context, 1.0, -1.0);
     CGContextTranslateCTM(context, 0, -self.topDrawView.height);
     
-    NSString *str = @"Guangdong has recently published Several Policies and Measures for Promoting Scientific and Technological Innovation";
+    NSString *str = @"Guangdong has recently published Several Policies that ";
     CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)[self getAttributeStrWithStr:str];
     
     CTTypesetterRef typesetter = CTTypesetterCreateWithAttributedString(attrString);
     
     CFIndex start = 0;
-    CGPoint textPosition = CGPointMake(0, 55);
-    double width = self.topDrawView.width;
+    CGPoint textPosition = CGPointMake(30, 80);
+    double width = 250;
     
-    BOOL isCharLineBreak = NO;
-    BOOL isJustifiedLine = NO;
+    BOOL isCharLineBreak = YES;
+    BOOL isJustifiedLine = YES;
     float flush = 0; // centered，可以调整这里的数字0是左对齐，1是右对齐，0.5居中
     while (start < str.length) {
         CFIndex count;
@@ -874,7 +874,7 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
     CGContextScaleCTM(context, 1.0, -1.0);
     CGContextTranslateCTM(context, 0, -self.topDrawView.height);
     
-    // CTLine
+    // CTRun
     CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)[self getAttributeStrWithStr:@"一二三四Guangdong has recently published Several五六七八九十"];
     CTTypesetterRef typesetter = CTTypesetterCreateWithAttributedString(attrString);
     CFIndex count = CTTypesetterSuggestLineBreak(typesetter, 0, 300);
@@ -989,6 +989,7 @@ static void AddSquashedDonutPath(CGMutablePathRef path,
             
             UIImage *image = [UIImage imageNamed:@"abc"];
             CGContextDrawImage(context, CGRectMake(lineOrigin.x + offsetX + marginX, lineOrigin.y, size.width, size.height), image.CGImage);
+            // 如果用UIKit的方法进行绘制，会出现上下颠倒的情况
 //            [image drawInRect:CGRectMake(lineOrigin.x + offsetX + marginX, lineOrigin.y, size.width, size.height)];
         }
     }
