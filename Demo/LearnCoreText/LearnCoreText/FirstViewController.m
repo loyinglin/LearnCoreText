@@ -24,10 +24,13 @@
 @property (nonatomic, strong) UIButton *ctRunBtn;
 @property (nonatomic, strong) UIButton *fillAndStrokeColorBtn;
 @property (nonatomic, strong) UIButton *textWithEmpytLayoutBtn;
+@property (nonatomic, strong) UIButton *calculateLineBtn;
 
 @property (nonatomic, strong) UIScrollView *containerScrollView;
 
 @property (nonatomic, strong) UIImageView *topDrawView;
+
+@property (nonatomic, assign) CTFrameRef frameRef;
 
 @end
 
@@ -37,16 +40,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.topDrawView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 200)];
-    [self.view addSubview:self.topDrawView];
-    
     self.containerScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:self.containerScrollView];
-    if (@available(iOS 11.0, *)) {
-        [self.containerScrollView setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
-    }
+    
+    self.topDrawView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 60, self.view.width, 200)];
+    [self.view addSubview:self.topDrawView];
     
     [self customInit];
+    
+    self.topDrawView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+    [self.topDrawView addGestureRecognizer:tap];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -210,6 +214,18 @@
         self.textWithEmpytLayoutBtn = btn; // 2
     }
     
+    {
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, startY, 200, 20)];
+        [btn setTitle:@"计算位置" forState:UIControlStateNormal]; // 1
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.containerScrollView addSubview:btn];
+        [btn addTarget:self action:@selector(onBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        startY += CGRectGetHeight(btn.bounds) + margin;
+        
+        self.calculateLineBtn = btn; // 2
+    }
+    
     self.containerScrollView.contentSize = CGSizeMake(CGRectGetWidth(self.view.bounds), startY);
 }
 
@@ -257,6 +273,9 @@
     }
     else if (btn == self.textWithEmpytLayoutBtn) {
         self.topDrawView.image = [self drawTextWithEmptyLayoutImage];
+    }
+    else if (btn == self.calculateLineBtn) {
+        self.topDrawView.image = [self drawCalucateImage];
     }
 }
 
@@ -1038,6 +1057,92 @@ static CGFloat widthCallback(void * refCon){
                                    delegate);
     CFRelease(delegate);
     return space;
+}
+
+
+- (UIImage *)drawCalucateImage {
+    UIGraphicsBeginImageContextWithOptions(self.topDrawView.size, NO, [UIScreen mainScreen].scale);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextTranslateCTM(context, 0, -self.topDrawView.height);
+    
+    NSString *str = @"一二三四五六七八九十一二三四五六七八九十\n一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十\n一二三四五六七八九十一二三四五六七八九十\n一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十";
+    CFMutableAttributedStringRef attrString = (__bridge CFMutableAttributedStringRef)[self getNormalMutableAttributeStrWithStr:str];
+    
+    CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString(attrString);
+    UIBezierPath * bezierPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, self.topDrawView.width, self.topDrawView.height)];
+    CTFrameRef frameRef = CTFramesetterCreateFrame(frameSetter,
+                                                   CFRangeMake(0, 0),
+                                                   bezierPath.CGPath, NULL);
+    CTFrameDraw(frameRef, context);
+    if (self.frameRef) {
+        CFRelease(self.frameRef);
+        self.frameRef = NULL;
+    }
+    self.frameRef = frameRef;
+    CFRetain(self.frameRef);
+    
+    // create 和 release 一一对应
+    CFRelease(frameSetter);
+    CFRelease(frameRef);
+    
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+}
+
+- (CFIndex)touchContentOffsetInView:(UIView *)view point:(CGPoint)point frameRef:(CTFrameRef)frameRef {
+    CTFrameRef textFrame = frameRef;
+    CFArrayRef lines = CTFrameGetLines(textFrame);
+    if (!lines) {
+        return -1;
+    }
+    CFIndex count = CFArrayGetCount(lines);
+    
+    // 获得每一行的origin坐标
+    CGPoint origins[count];
+    CTFrameGetLineOrigins(textFrame, CFRangeMake(0,0), origins);
+    
+    // 翻转坐标系
+    CGAffineTransform transform =  CGAffineTransformMakeTranslation(0, view.bounds.size.height);
+    transform = CGAffineTransformScale(transform, 1.f, -1.f);
+    
+    CFIndex idx = -1;
+    for (int i = 0; i < count; i++) {
+        CGPoint linePoint = origins[i];
+        CTLineRef line = CFArrayGetValueAtIndex(lines, i);
+        // 获得每一行的CGRect信息
+        CGRect flippedRect = [self getLineBounds:line point:linePoint];
+        CGRect rect = CGRectApplyAffineTransform(flippedRect, transform);
+        
+        if (CGRectContainsPoint(rect, point)) {
+            // 将点击的坐标转换成相对于当前行的坐标cocoapods
+            CGPoint relativePoint = CGPointMake(point.x-CGRectGetMinX(rect),
+                                                point.y-CGRectGetMinY(rect));
+            // 获得当前点击坐标对应的字符串偏移
+            idx = CTLineGetStringIndexForPosition(line, relativePoint);
+        }
+    }
+    return idx;
+}
+
+- (CGRect)getLineBounds:(CTLineRef)line point:(CGPoint)point {
+    CGFloat ascent = 0.0f;
+    CGFloat descent = 0.0f;
+    CGFloat leading = 0.0f;
+    CGFloat width = (CGFloat)CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+    CGFloat height = ascent + descent;
+    return CGRectMake(point.x, point.y - descent, width, height);
+}
+
+- (void)onTap:(UITapGestureRecognizer *)tap {
+    if (tap.view == self.topDrawView) {
+        CGPoint point = [tap locationInView:self.topDrawView];
+        CFIndex index = [self touchContentOffsetInView:self.topDrawView point:point frameRef:self.frameRef];
+        NSLog(@"click index:%ld", (long)index);
+    }
 }
 
 @end
