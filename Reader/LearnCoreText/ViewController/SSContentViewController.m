@@ -98,7 +98,7 @@
 }
 
 - (void)loadPageViewController {
-    self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
+    self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl
                                                               navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal
                                                                             options:@{UIPageViewControllerOptionSpineLocationKey:@(UIPageViewControllerSpineLocationMin)}];
     self.pageViewController.delegate = self;
@@ -122,11 +122,11 @@
     UIViewController *vc = [self getViewControllerWithPageControllData:pageData];
     self.scrollCount = 0;
     NSArray *vcArr = @[vc];
-    if (self.pageViewController.transitionStyle == UIPageViewControllerTransitionStylePageCurl) {
-        SSBackViewController *backVC = [[SSBackViewController alloc] init];
-        [backVC updateWithViewController:vc];
-        vcArr = @[vc, backVC];
-    }
+//    if (self.pageViewController.transitionStyle == UIPageViewControllerTransitionStylePageCurl) {
+//        SSBackViewController *backVC = [[SSBackViewController alloc] init];
+//        [backVC updateWithViewController:vc];
+//        vcArr = @[vc, backVC];
+//    }
     
     __weak typeof(self) weakSelf = self;
     [self.pageViewController setViewControllers:vcArr
