@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD7D8C5E2413D04B0011A87B /* test.data in Resources */ = {isa = PBXBuildFile; fileRef = FD7D8C5D2413D04B0011A87B /* test.data */; };
 		FDD1C61F22268BEE00B1FBA1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD1C61E22268BEE00B1FBA1 /* AppDelegate.m */; };
 		FDD1C62222268BEE00B1FBA1 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD1C62122268BEE00B1FBA1 /* FirstViewController.m */; };
 		FDD1C62522268BEE00B1FBA1 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD1C62422268BEE00B1FBA1 /* SecondViewController.m */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FD7D8C5D2413D04B0011A87B /* test.data */ = {isa = PBXFileReference; lastKnownFileType = text; path = test.data; sourceTree = "<group>"; };
 		FDD1C61A22268BEE00B1FBA1 /* LearnCoreText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnCoreText.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD1C61D22268BEE00B1FBA1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FDD1C61E22268BEE00B1FBA1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				FDD1C62122268BEE00B1FBA1 /* FirstViewController.m */,
 				FDD1C62322268BEE00B1FBA1 /* SecondViewController.h */,
 				FDD1C62422268BEE00B1FBA1 /* SecondViewController.m */,
+				FD7D8C5D2413D04B0011A87B /* test.data */,
 				FDD1C62622268BEE00B1FBA1 /* Main.storyboard */,
 				FDD1C62922268BF000B1FBA1 /* Assets.xcassets */,
 				FDD1C62B22268BF000B1FBA1 /* LaunchScreen.storyboard */,
@@ -139,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDD1C62D22268BF000B1FBA1 /* LaunchScreen.storyboard in Resources */,
+				FD7D8C5E2413D04B0011A87B /* test.data in Resources */,
 				FDD1C62A22268BF000B1FBA1 /* Assets.xcassets in Resources */,
 				FDD1C62822268BEE00B1FBA1 /* Main.storyboard in Resources */,
 			);
